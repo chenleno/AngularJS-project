@@ -1,0 +1,108 @@
+<div id="device" class='clearfix' ng-controller='addDeviceCtrl'>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+        <div class="crumb fl">
+            <a ui-sref='app.device.deviceList'>返回上一级</a>&nbsp;&nbsp;
+
+            <i class='iconfont icon-xiayige'>&nbsp;&nbsp;</i>
+
+            <span>添加设备</span>
+        </div>
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia" ng-click='addDevice(deviceSelectedArr)'>
+
+                <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;添加所选
+            </button>
+
+        </div>
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo'></i>
+            <input ng-keyup='search( keyword , $event)' type="text" maxlength="30" placeholder='搜索终端名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl cityTitle title">
+                所在地：
+            </div>
+            <div class="fl deviceCity selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='city' ng-options='city.name as city.name for city in cityGroup'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" adaptive-table  >
+
+        <div class="deviceTable">
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td class='theadCheckBox' id="td1">
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox"
+                                   ng-click="selectAll(deviceSelectedArr , $event , deviceList , 'deviceId')"
+                                   ng-checked='isSelectedAll(deviceSelectedArr ,deviceList)'><i></i>
+                        </label>
+                    </td>
+                    <td id="td2">终端ID</td>
+                    <td id="td3">终端名称</td>
+                    <td id="td4">MAC地址</td>
+                    <td id="td5">所在地</td>
+                    <td id="td7">状态</td>
+                    <td id="td8">操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish
+                        ng-class="{'selectedTr' : isSelected(deviceSelectedArr , data.deviceId) }">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.deviceId}}'
+                                       ng-model='data.checked'
+                                       ng-checked='isSelected(deviceSelectedArr , data.deviceId)'
+                                       ng-click="updateSelection(deviceSelectedArr , $event , data.deviceId)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName'>
+                            <span title='{{data.deviceId}}' class='dataName'>
+                                {{data.deviceId | limitLength}}
+                            </span>
+                        </td>
+                        <td>{{data.deviceName}}</td>
+                        <td>{{data.deviceMac}}</td>
+                        <td>{{data.deviceCity}}</td>
+                        <!--后期可能会有多种状态-->
+                        <td style='color: #f6911a;'>待添加</td>
+                        <td class="operateBtn ">
+                            <a href="javascript:;" title='添加' ng-click='addDevice(data.deviceId)'>
+                                <i class="iconfont  icon-552cc594d8cc0"></i></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>空空如也</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

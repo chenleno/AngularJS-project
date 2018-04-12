@@ -1,0 +1,25 @@
+<!-- settings -->
+  <button class="btn btn-default  pos-abt" ui-toggle-class="active" target=".settings">
+    <i class="iconfont icon-jiantou1"></i>
+  </button>
+  <div class="panel-heading">
+    传输状态
+  </div>
+  <div class="panel-error" id="panelError">
+    <i class="iconfont icon-xiaolian"></i><span>&nbsp;&nbsp;有<em>{{errorNumber}}</em>个文件上传失败!</span>
+  </div>
+  <div class="panel-body optiscroll" id="uploadList">
+    <div class="item-list" ng-repeat="item in uploader.queue">
+      <div class="progress" style="margin-bottom: 0;">
+        <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+      </div>
+      <img class="file-img" ng-src="{{ listimg(item.file.type) }}" alt=""/>
+      <span class="file-name" title='{{item.file.name}}'>{{ item.file.name }}</span>
+      <span class="file-progress" ng-class="{'file-error':item.isError}">{{item.isError == true ? '失败' : item.progress + '%'}}</span>
+      <span title="上传成功" class="file-status" ng-show="item.isSuccess"><i class="iconfont icon-gougou"></i></span>
+      <a title="删除" class="file-status file-del"ng-click="item.remove()" ng-show="item.isReady ||item.isUploading||item.isSuccess||item.isError"><i class="iconfont icon-cuowu"></i></a>
+      <a title="重新上传" class="file-status file-error" ng-click="item.upload()" ng-show="item.isError"><i class="iconfont icon-zhongshi"></i></a>
+    </div>
+
+  </div>
+<!-- /settings -->

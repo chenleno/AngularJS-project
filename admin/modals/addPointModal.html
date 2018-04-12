@@ -1,0 +1,67 @@
+<div class="add_modal" >
+
+        <div class="modal_content add_project">
+            <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+                  w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+                <div class="input-class">
+                    <label>点位名称： </label>
+                    <input class='inputText' type="text"  ng-model="data.pointName" name='pointName' ng-pattern='/^[\u4E00-\u9FA5A-Za-z0-9_]+$/'
+                           required="" maxlength="30"/>
+                </div>
+    
+                <div class="input-class">
+                    <label>点位类型： </label>
+                    <div class="radio" style="width:380px;">
+                        <label class="i-checks" style="width:50px;">
+                            <input type="radio" ng-model='data.pointType'  value=2>
+                            <i></i>
+                            3*4
+                        </label>
+                        <label class="i-checks"  style="width:50px;">
+                            <input type="radio" ng-model='data.pointType'   value=1 >
+                            <i></i>
+                            3*3
+                        </label>
+                        <label class="i-checks"  style="width:50px;">
+                            <input type="radio" ng-model='data.pointType'   value=3 >
+                            <i></i>
+                            1+1
+                        </label>
+                        <label class="i-checks"  style="width:50px;">
+                            <input type="radio" ng-model='data.pointType'   value=5 >
+                            <i></i>
+                            1+1+1
+                        </label>
+                        <label class="i-checks"  style="width:50px;">
+                            <input type="radio" ng-model='data.pointType'   value=4 >
+                            <i></i>
+                            单屏
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="input-class" id="mainScreenId">
+                    <label>主屏ID： </label>
+                    <input class='inputText' type="text"  ng-blur="checkId('mainScreenId')" required="" name="idName" ng-model="mainId"/>
+                    <input class="disableId" type="hidden"/>
+                    <br><span class="mainScreenId" style="color:red;padding-left:70px;"></span>
+
+                    <!-- <div id="idList"></div>     -->
+                </div>
+                
+                <div class="input-class">
+                    <label>添加副屏：</label><i class='iconfont icon-552cc594d8cc0' ng-click="addScreen()"></i>
+                </div>
+    
+                <div id="addScreen">
+                    
+                </div>
+
+                <div class="button-bottom">
+                    <a class="cancel" ng-click="cancel()">取消</a>
+                    <button class="addMember" w5c-form-submit='submit()'>添加</button>
+                </div>
+    
+            </form>
+        </div>
+    </div>

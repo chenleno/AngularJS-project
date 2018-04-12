@@ -1,0 +1,79 @@
+<div class="clearfix"  id='setPointModal'>
+    <div class="pointHead">
+        <p class="title">选择投放点位</p>
+
+        <div class="divp locationGroup">
+            <span>位置：</span>
+            <label class='chooseCity'>
+                <select ng-model="selected1" ng-options="s.province for s in list" ng-change="c(selected1.province,selected2.city,selected3,keyword)">
+                    <option value="">请选择省份</option>
+                </select>
+            </label>
+            <!--<label class='chooseCity' ng-show="selected.child.length"-->
+            <label class='chooseCity'>
+                <select ng-model="selected2"
+                        ng-options="sh.city for sh in selected1.cityList" ng-change="c2(selected1.province,selected2.city,selected3,keyword)">
+                    <option value="">请选择市区</option>
+                </select>
+            </label>
+            <!--<label class='chooseCity' ng-show="selected2.child.length"-->
+            <label class='chooseCity'>
+                <select
+                        ng-model="selected3" ng-options="x for x in selected2.districtList"
+                        ng-change="c3()">
+                    <option value="">请选择区域</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click="searchMember('',selected1.province,selected2.city,selected3,keyword)"></i>
+            <input class="input" ng-keyup='searchMember($event,selected1.province,selected2.city,selected3,keyword)' type="text" placeholder='搜索点位名称' ng-model='keyword'>
+        </div>
+    </div>
+    <div class="memLeft">
+        <div class="siteHead">
+            <label class="i-checks m-b-none">
+                <input type="checkbox" name='selectedAll' id="allCheck"
+
+                       ng-checked='isSelectedAll(selected , datas , false)'
+                        ><i></i>
+            </label>
+            <span>点位名称</span>
+            <span class="site">位置</span>
+        </div>
+        <div class="memList optiscroll" id="leftMember">
+
+            <div class="roleItem itemCtrl" ng-repeat='data in datas'>
+                <label class="i-checks m-b-none">
+                    <input type="checkbox" name='selected' value='{{data.userName}}' class="siteCheck"
+                           ng-model='data.checked' ng-checked='isSelected(selected , data.pointId)'
+                           ng-click="updateSelection(selected , $event , data.pointId,true)"
+                            ><i></i>
+                </label>
+                <span class="name">{{data.pointName | limitLength:15}}</span>
+                <span class="email" title={{data.pointProvince+data.pointCity+data.pointDistrict+data.detailAddress}}>{{(data.pointProvince+data.pointCity+data.pointDistrict+data.detailAddress)| limitLength:15 }}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="memright">
+        <p class="head">
+            已选择点位
+            <a href="javascript:;"ng-click="deleteArr()"><i class="iconfont icon-cuowu del"></i></a>
+        </p>
+        <div class="memberList optiscroll" id="rightMember">
+            <div class="roleItem itemCtrl" ng-repeat='data in selectedRightMember'>
+                <span class="name" title={{data.pointName}}>{{data.pointName | limitLength:10}}</span>
+                <span class="email" title={{data.pointProvince+data.pointCity+data.pointDistrict+data.detailAddress}}>{{(data.pointProvince+data.pointCity+data.pointDistrict+data.detailAddress) | limitLength:15}}</span>
+                <a href="javascript:;"ng-click="updateSelection(selected , $event , data.pointId,false)"><i class="iconfont icon-cuowu del"></i></a>
+            </div>
+        </div>
+        <!--| limitLength:15-->
+    </div>
+    <div class="membottom">
+        <a class="cancel" ng-click="cancel()">取消</a>
+        <a class="add" ng-click="ok()">确定</a>
+        <p class="selectedNumber">以选择 <i>{{selectedRightMember.length}}</i> 个点位</p>
+    </div>
+</div>

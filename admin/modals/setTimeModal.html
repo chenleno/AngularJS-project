@@ -1,0 +1,157 @@
+<div class='setTimeWrap editPT'>
+    <!--地图-->
+
+    <div class="map" id="map"></div>
+
+    <div class="location">
+        <p><i class='iconfont icon-weizhi'></i>&nbsp;&nbsp;{{data.pointProvince + data.pointCity + data.pointDistrict + data.detailAddress}}</p>
+    </div>
+
+    <div class="add_modal ptContent" >
+
+        <div class="modal_content">
+            <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+                  w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+                <!-- <div class="content_header">
+                    <div class="headerTitle">
+                        {{data.pointName}}
+                    </div>
+                    <div class="headerInfo">
+                        {{data.addTime}}
+                    </div>
+                </div> -->
+
+                <div class="input-class">
+                    <label>创建时间： </label>
+                    <div class="detailInfo">
+                        {{data.addTime}}
+                    </div>
+                </div>
+
+                <div class="input-class">
+                    <label>点位ID： </label>
+                    <div class="detailInfo">
+                        {{data.pointForeId}}
+                    </div>
+                </div>
+
+                <div class="input-class">
+                    <label>点位名称： </label>
+                    <div class="detailInfo">
+                        <input type="text" class='flow' ng-model="data.pointName">
+                    </div>
+                </div>
+
+                <div class="input-class">
+                    <label>点位地址： </label>
+
+                    <div class="detailInfo">
+                            <div class="fl deviceCity selectSquare">
+                                    <label class='chooseCity' >
+                                        <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected" ng-options="s.name for s in cityList"
+                                                ng-change="c(selected.province,selected2.city,selected3)">
+                                            <option value="">选择省</option>
+                                        </select>
+                                    </label>
+                                    <!--<label class='chooseCity' ng-show="selected.child.length"-->
+                                    <label class='chooseCity'
+                                    >
+                                        <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected2"
+                                                ng-options="sh.name for sh in selected.child" ng-change="c2(selected.name,selected2.city,selected3)">
+                                            <option value="">选择市</option>
+                                        </select>
+                                    </label>
+                                    <!--<label class='chooseCity' ng-show="selected2.child.length"-->
+                                    <label class='chooseCity'
+                                    >
+                                        <select class=" input-sm form-control w-sm inline v-middle "
+                                                ng-model="selected3" ng-options=" x.value for x in selected2.child"
+                                                ng-change="c3(selected.province,selected2.city,selected3)">
+                                            <option value="">选择区</option>
+                                        </select>
+                                    </label>
+                                </div>    
+                    </div>
+
+                </div>
+
+                <div class="input-class">
+                    <label> </label>
+
+                    <div class="detailInfo">
+                        <input type="text" class='flow' placeholder="请输入具体街道" ng-model="data.detailAddress">
+                    </div>
+
+                </div>
+
+                <div class="input-class">
+                    <label>点位类型： </label>
+
+                    <div class="detailInfo">
+                        {{data.pointType | getPTtype}}
+                    </div>
+
+                </div>
+                <div class="input-class">
+                    <label>展示时段： </label>
+                    <div ng-if='editMode == false' class="detailInfo">
+                        {{beginTime == null?'10:00':beginTime}}-{{endTime == null?'22:00':endTime}}
+                    </div>
+
+                    <div ng-if='editMode == true' class="detailInfo setTime">
+                        <!--时间控件-->
+                        <div class="timeComponent clearfix">
+                            <div class="stComp">
+                                <div class="st" info='st'  input-time ng-model='data.showBeginTime '>
+
+                                </div>
+                            </div>
+
+                            <div class="timeLine fl"></div>
+
+                            <div class="etComp">
+                                <div class="et" info='et' input-time ng-model='data.showEndTime'>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="input-class">
+                    <label>设备状态： </label>
+                    <!--日期-->
+                    <div class="detailInfo">
+                        {{data.state}}
+                    </div>
+
+                </div>
+                <div class="input-class">
+                    <label>预估人流： </label>
+                    <div ng-if='editMode == false' class="detailInfo">
+                        {{data.estimateFlow}}人/日均
+                    </div>
+
+                    <div ng-if='editMode == true' class="detailInfo">
+                        <input type="text" class='flow' ng-model='data.estimateFlow'>人/日均
+                    </div>
+
+                </div>
+
+
+                <div ng-if='editMode == false' class="button-bottom">
+                    <a class="cancel" ng-click="cancel()">关闭</a>
+                </div>
+
+                <div ng-if='editMode == true' class="modal-footer">
+                    <a class="fr btn btnCancel" ng-click="cancel()">取消</a>
+
+                    <a class="fr btn  btnSubmit" ng-click='doSubmit(data.pointId)' style='line-height: 26px;'>保存设置</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+

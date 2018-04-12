@@ -1,0 +1,81 @@
+<div class="add_modal" >
+
+    <div class="modal_content">
+        <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+              w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+            <div class="content_header">
+                <div class="headerTitle">
+                    {{data.projectName}}
+                </div>
+                <div class="headerInfo">
+                    {{data.createTime}}
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>项目来源： </label>
+                <div class="detailInfo">
+                    {{data.projectSource | getProjectSource}}
+                </div>
+            </div>
+
+
+            <div class="input-class">
+                <label>费用： </label>
+
+                <div class="detailInfo">
+                    {{data.projectCosts | getProjectCost}}
+                </div>
+
+            </div>
+            <div class="input-class">
+                <label>金额： </label>
+                <div class="detailInfo">
+                    {{data.projectAmount}}
+                </div>
+            </div>
+            <div class="input-class">
+                <label>投放时间： </label>
+                <!--日期-->
+                <div class="detailInfo">
+                    {{data.projectBegintime}}—{{data.projectEndtime}}
+                </div>
+
+            </div>
+            <div class="input-class">
+                <label>客户名称： </label>
+                <div class="detailInfo">
+                    {{data.customerName}}
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>客户类别： </label>
+                <div class="detailInfo">
+                    {{data.customerCategory | getCustomerCategory}}
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>联系人： </label>
+                <div class="detailInfo">
+                    {{data.linkmanName}}
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>联系电话： </label>
+                <div class="detailInfo">
+                    {{data.linkmanPhone}}
+                </div>
+            </div>
+
+            <div class="button-bottom">
+                <a class="cancel" ng-click="cancel()">关闭</a>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>

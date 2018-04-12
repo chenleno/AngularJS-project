@@ -1,0 +1,64 @@
+<div class='clearfix order'>
+
+    <!--listTable-->
+
+    <div class="deviceListCtrl" adaptive-table>
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                    <tr>
+                        <td id='td1'>素材名称</td>
+                        <td id='td2'>播放时长</td>
+                        <td id='td3'>加拨时段</td>
+                        <td id='td4'>广告单名称</td>
+                        <td id='td5'>投放日期</td>
+                        <td id='td6'>操作</td>
+                 
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+                        <!--列表获取展示行-->
+                        <tr ng-repeat='datas in datas track by $index' on-finish>
+                            <td class='tal td1' title='{{datas.meterialName}}'>
+                                {{datas.materialName}}
+                            </td>
+                            <td class='td2'>{{datas.fileDuration | getParseInt}}</td>
+                            <td class='td3' title="{{datas.addedTimeRange}}">{{datas.addedTimeRange}}</td>
+                            <td class='td4'>{{datas.billName}}</td>
+                            <td class='td5'>{{datas.throwDate}}</td>
+                            <td class="operateBtn td6">
+                                <a href="javascript:;" title="查看详情" ng-click="goToDetail(datas.billId)" ng-show="datas.billId">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-chakan"></i></a>
+                            </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--模态框测试-->
+                <!--<a ng-click='setTime()'>点击</a>-->
+
+                <div class="noData " ng-if='datas | showNoData'>
+                    <div class="noDataImg "></div>
+                    <p>当前还没有列表</p>
+                </div>
+                <div>总时长: 约{{allTime}}秒</div>
+            </div>
+            <a class="cancel" ng-click="cancel()" style="margin-right:45%;">关闭</a>
+        </div>
+        
+    </div>
+</div>

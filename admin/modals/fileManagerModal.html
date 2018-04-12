@@ -1,0 +1,22 @@
+<div id="fileManager" class="file-box">
+        <h2>{{fileManagerName}}文件<span class="close-box"><i class="iconfont icon-cuowu" ng-click="cancel()"></i></span></h2>
+        <div class="file-show" ng-if='showImage'>
+            <div class="need-operate-file">
+                <div class="single-file">
+                    <!--<span class="single-name" ng-repeat="item in mediaLists.fileList"><i ng-class="{'iconfont icon-wenjianjia': item.dir, 'iconfont icon-bianji':!item.dir}"></i>{{item.name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
+                    <span class="single-name"><i ng-class="{'wenjianjia': mediaLists.fileList[0].dir, 'meiti':!mediaLists.fileList[0].dir}"></i></span>
+                    <span class="text-title">&nbsp;&nbsp;{{mediaLists.fileList[0].name}}&nbsp;&nbsp;</span>
+                    <span  class="text-title" ng-if="mediaLists.fileList[1]">等多个文件</span>
+                </div>
+            </div>
+        </div>
+        <div class="all-file-list">
+            <h3>{{fileManagerName |limitLength}}到：<span id="title">{{titleName | limitLength}}</span></h3>
+            <ul class="all-file-lists ztree" id="jqueryTree">
+            </ul>
+        </div>
+
+        <div class="botton-class">
+            <button ng-click="ok()">确定{{fileManagerName}}</button><button ng-click="cancel()">取消</button>
+        </div>
+    </div>

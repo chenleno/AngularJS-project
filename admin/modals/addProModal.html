@@ -1,0 +1,16 @@
+<div class="modalWrap" ng-model='addProModel' pro-focus>
+    <div class="inputArea addProArea">
+        <form action="" >
+            <input  class='createPro'  type="text" ng-model='data.name' ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_]+$/" ng-init='data.name = "新建节目"' ng-maxlength='20' required
+                   ng-keyup='doSubmit($event)'>
+
+            <p ><span><i class='iconfont icon-xiaolian'></i>&nbsp;&nbsp;节目名称为汉字，字母，下划线组成最多可以输入20个字</span></p>
+
+            <div class="modal-footer">
+                <a class="btn  btnSubmit" ng-click='doSubmit()' style='line-height: 26px;'>确定</a>
+                <a class="btn btnCancel" ng-click="cancel()">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+

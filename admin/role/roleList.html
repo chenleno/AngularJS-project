@@ -1,0 +1,41 @@
+<div id="roleList" class="clearfix" ng-controller='roleCtrl'>
+
+    <!--button-group-->
+    <div class="roleCtrlGroup clearfix">
+        <div class="managers">
+            <div class="manager" ui-sref="app.member.memberList"><i class="iconfont icon--_chengyuan"></i>成员管理</div>
+            <div class="manager chengyuan"><i class="iconfont icon-quanxian1"></i>权限管理</div>
+        </div>
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class="fr btn mediaBtn uploadMedia" ng-click='delete(mediaSelectedArr)'><i class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除所选</button>
+            <div class="fr searchGroup">
+                <i class='iconfont icon-sousuo_sousuo' ng-click="queryRoleName('',true,keyword)"></i>
+                <input ng-keyup='queryRoleName($event,true,keyword)' type="text" placeholder='搜索关键字' ng-model='keyword' maxlength="30">
+            </div>
+        </div>
+    </div>
+
+    <!--列表-->
+    <div class="roleCtrlList clearfix optiscroll" id="scroll">
+        <div class="roleItem fl itemCtrl">
+            <a href="javascript:;" ng-click="checkBtn('/api/mps-user/role','post','app.role.addRole')" class="addRole"><div class="plus"></div></a>
+
+        </div>
+        <div class="roleItem fl itemCtrl" ng-repeat='data in datas' ng-class="{'selectedDiv' :data.checked }">
+            <label class="i-checks m-b-none">
+                <input type="checkbox" name='selected' value='{{data.roleName}}' ng-disabled='addDirBool? true: false'
+                       ng-model='data.checked' ng-checked='isSelected(mediaSelectedArr , data.roleId)'
+                       ng-click="updateSelection(mediaSelectedArr , $event , data.roleId)"><i></i>
+            </label>
+            <a href="javascript:;" class="del" ng-click="delete(data.roleId)"><i class='iconfont icon-cuowu'></i></a>
+            <div class="itemContain">
+                <a href="javascript:;" class="name" title={{data.roleName}}>{{data.roleName | limitLength:10}}</a>
+                <!--<span class="time">{{data.changeTime}}</span>-->
+                <span class="number"><i>{{data.memberCount}}</i>&nbsp;人</span>
+                <div><i class='iconfont icon-quanxian icon-btn' ng-click="checkBtn('/api/mps-user/role/:id','put','app.role.editRole',{id:data.roleId})" ></i><i class='icon-btn iconfont icon--_chengyuan' ng-click="checkBtn('/api/mps-user/role/:id/member','post','app.role.addRoleMember',{id:data.roleId,name:data.roleName})"></i></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

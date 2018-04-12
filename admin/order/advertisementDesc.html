@@ -1,0 +1,193 @@
+<div id="advertisementDesc" class="clearfix" ng-controller="advertisementDescCtrl">
+    <div class="tabs fl">
+
+        <a class="returnButton" ng-click="returnBack()">返回上一级</a>
+    </div>
+    <div class="member-header">
+        <div class="managers">
+            <div class="manager chengyuan"><i class="iconfont icon--_chengyuan"></i>广告单详情</div>
+            <div class="manager" ng-click="goDesc()"><i class="iconfont icon-quanxian1"></i>投放点位</div>
+        </div>
+
+    </div>
+
+    <div class="adInfo optiscroll" id="scroll" scroll-height="scroll 210">
+        <!--<div style="height: 300px;width: 100px"></div>-->
+        <h1 class="mt60 ml60">{{data.step1.billName}}</h1>
+        <div class="time ml60">
+            <span>{{data.step3.createTime}}</span>
+            <span>{{data.step3.creater}}</span>
+        </div>
+        <div class="infoList ml60">
+            <div class="infoDesc">
+                <span class="name">广告类型:</span>
+                <p>{{data.step1.billType == 1 ? '视频' : '互动游戏'}}</p>
+            </div>
+            <div class="infoDesc fr">
+                <span class="name">点位类型:</span>
+                <p>{{data.step1.pointType == 1 ? '3*3' : data.step1.pointType == 2 ? '3*4' : data.step1.pointType == 3 ? '1*2' : data.step1.pointType == 5 ? '1+1+1' :'单屏'}}</p>
+            </div>
+        </div>
+        <div class="infoList ml60" ng-show="data.step1.billType == 1">
+            <div class="infoDesc">
+                <span class="name">投放点位:</span>
+                <p>{{data.step1.pointCount}}</p>
+            </div>
+            <div class="infoDesc fr" ng-show="data.step1.billType == 1">
+                <span class="name">播放时长:</span>
+                <p>{{data.step3.fileDuration | getParseInt}}</p>
+            </div>
+        </div>
+        <div class="infoList ml60" ng-show="data.step1.billType == 1">
+            <div class="infoDesc">
+                <span class="name">投放日期:</span>
+                <p>{{data.step3.beginTime == null ? '-' : data.step3.beginTime +'&nbsp;&nbsp;&nbsp;'}}{{data.step3.endTime == null ? '-' : data.step3.endTime  }}</p>
+            </div>
+            <div class="infoDesc fr">
+                <span class="name">每轮播放次数:</span>
+                <p>{{data.step3.showCountround == null ? '-' : data.step3.showCountround}} 次</p>
+            </div>
+        </div>
+        <div class="infoList ml60"  ng-show="data.step1.billType == 1">
+            <div class="infoDesc" style="width: 335px">
+                <span class="name">加播时段:</span>
+                <div class="selectTime" ng-show="data.step3.addedInfo != null">
+                    <span class="name2">每轮加播次数:<span class="value">{{data.step3.addedInfo[0].countRound}}</span> 次</span>
+                    <p ng-repeat="item in videoTimeList">{{item}}</p>
+                    <!--<p>11:00:00-12:00:00</p>-->
+                    <!--<p>11:00:00-12:00:00</p>-->
+                </div>
+                <div class="selectTime" ng-show="data.step3.addedInfo == null">
+                    <p>不限</p>
+                </div>
+            </div>
+            <div class="infoDesc fr">
+                <span class="name">播放次数:</span>
+                <p>{{data.step3.showCountday == null ?'不限' : data.step3.showCountday + '次' }} </p>
+            </div>
+        </div>
+        <!--游戏-->
+        <div class="infoList ml60" ng-show="data.step1.billType != 1">
+            <div class="infoDesc">
+                <span class="name">投放点位:</span>
+                <p>{{data.step1.pointCount}}</p>
+            </div>
+            <div class="infoDesc fr">
+                <span class="name">投放日期:</span>
+                <p>{{data.step3.beginTime+'&nbsp;&nbsp;&nbsp;'+ data.step3.endTime }}</p>
+            </div>
+        </div>
+        <div class="infoList ml60"  ng-show="data.step1.billType != 1">
+            <div class="infoDesc" style="width: 475px">
+                <span class="name">启动时段:</span>
+                <div class="selectTime" style="width: 380px">
+                    <p ng-repeat="item in timeList" style="float: left;width: 105px;margin-right: 20px;">{{item}}</p>
+                    <!--<p ng-show="data.step3.timerangeIds == null">不限</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="infoList ml60" style="width: 1064px;">
+            <div class="infoDesc infoPre">
+                <span class="name">广告素材:</span>
+                <div class="preview" ng-if="adType">
+                    <div class="preLeft">
+                        <!--<div id="video" class="video">-->
+                            <div class="video-body">
+                                <video class="video-js vjs-big-play-centered video-jsPre video-jsPre0" controls preload="auto" width="550" height="310"
+                                       data-setup="{}">
+                                    <!--<source src="2.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                    <!--<p class="vjs-no-js">-->
+                                    <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                    <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                    <!--</p>-->
+                                </video>
+                                <div id="game" class="game" ng-show="gameType">
+                                    <span></span>
+                                    <p>{{gameName}}</p>
+                                    <!--<p>gameNameqqqqqqqqqqqqqqqq.zip</p>-->
+                                </div>
+                            </div>
+                        <!--</div>-->
+                    </div>
+                    <div ng-hide="data.step1.pointType == 4 || data.step1.pointType == 1">
+                        <div class="preRight" ng-show="showType">
+                            <img ng-src="{{screen2Pic}}" alt=""/>
+                            <img ng-src="{{screen3Pic}}" alt=""/>
+                            <img ng-src="{{screen4Pic}}" alt=""/>
+                        </div>
+                        <div class="preRight longPic" ng-show="!showType">
+                            <img ng-src="{{screen5Pic}}" alt=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <!--1+1+1-->
+                <div class="preview" ng-if="!adType" style="clear: both">
+                    <div class="preLeft">
+                        <!--<div id="video" class="video">-->
+                        <div class="video-body1">
+                            <video class="video-js vjs-big-play-centered video-jsPre video-jsPre0" controls preload="auto" width="455" height="255"
+                                   data-setup="{}">
+                                <!--<source src="2.mp4" type='video/mp4'>-->
+                                <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                <!--<p class="vjs-no-js">-->
+                                <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                <!--</p>-->
+                            </video>
+                            <div id="game" class="game" ng-show="gameType">
+                                <span></span>
+                                <p>{{gameName}}</p>
+                                <!--<p>gameNameqqqqqqqqqqqqqqqq.zip</p>-->
+                            </div>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                    <div class="preLeft" ng-hide="data.step1.pointType == 4 || data.step1.pointType == 1">
+                        <!--<div class="preRight" ng-show="showType">-->
+                            <!--<img ng-src="{{screen2Pic}}" alt=""/>-->
+                            <!--<img ng-src="{{screen3Pic}}" alt=""/>-->
+                            <!--<img ng-src="{{screen4Pic}}" alt=""/>-->
+                        <!--</div>-->
+                        <div class="preRight1" ng-show="!showType">
+                            <img ng-src="{{screen5Pic}}" alt=""/>
+                        </div>
+                    </div>
+                    <div class="preLeft">
+                        <!--<div id="video" class="video">-->
+                        <div class="video-body1">
+                            <video class="video-js vjs-big-play-centered video-jsPre video-jsPre1" controls preload="auto" width="455" height="255"
+                                   data-setup="{}">
+                                <!--<source src="2.mp4" type='video/mp4'>-->
+                                <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                <!--<p class="vjs-no-js">-->
+                                <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                <!--</p>-->
+                            </video>
+                            <div id="game" class="game" ng-show="gameType">
+                                <span></span>
+                                <p>{{gameName}}</p>
+                                <!--<p>gameNameqqqqqqqqqqqqqqqq.zip</p>-->
+                            </div>
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-right" ng-show="xiaKangBool">
+            <!--<div class="search">-->
+            <!--<i class="iconfont icon-sousuo_sousuo"></i>-->
+            <!--<input type="text" placeholder="搜索关键字" ng-model="keyword" class="search-box" maxlength="30" ng-keyup='searchMember(keyword,$event)'>-->
+            <!--</div>-->
+            <div class="middle">
+                <div class="delete" ng-click="examine(id)"><i class="iconfont icon-xiajia"></i>下刊</div>
+            </div>
+        </div>
+    </div>
+</div>

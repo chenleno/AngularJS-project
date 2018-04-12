@@ -1,0 +1,42 @@
+<div id="conflictModal">
+    <div class="head">
+        <p>共<i>{{obj.collidePoints.length}}</i>个点位排期冲突</p>
+        <i class="iconfont icon-cuowu" ng-click="cancel()"></i>
+    </div>
+
+    <div class="contain optiscroll" id="scroll1">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td >点位ID</td>
+                    <td >点位名称</td>
+                    <td >计划投放次数</td>
+                    <td >实际可投放次数</td>
+                </tr>
+            </thead>
+            <tbody>
+                <!--列表获取展示行-->
+                <tr ng-repeat='data in obj.collidePoints'>
+                    <td title='{{data.pointId}}'>
+                        {{data.pointId}}
+                    </td>
+                    <td>
+                        {{data.pointName}}
+                    </td>
+                    <td>
+                        {{data.expectCount}}
+                    </td>
+                    <td style="color: #f6911a">
+                        {{data.actualCount}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="foot">
+        <a class="cancel" ng-click="cancel()">取消</a>
+        <a class="cancel submit" ng-click="ok()">直接投放</a>
+        <p>直接投放将按实际播放次数进行播放</p>
+    </div>
+</div>

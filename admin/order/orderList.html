@@ -1,0 +1,177 @@
+<div class="order" class='clearfix' ng-controller='orderlistCtrl'>
+
+    <div class="tabs fl">
+        <div class="tabBtn leftListMedia" ui-sref="app.order.orderList"><i class="iconfont icon-dingdan"></i>项目列表</div>
+        <div class="tabBtn " ui-sref="app.order.checkSheetList"><i class="iconfont icon-shenhe2"></i>广告单审核<s  class='countNum' ng-if='tipNum != 0'>{{tipNum}}</s></div>
+    </div>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia" ng-click='addProject()'><i
+                    class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;新建项目
+            </button>
+        </div>
+
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search( source , type , keyword, currentPage , pageSize)'></i>
+            <input ng-keyup='search( source , type , keyword, currentPage , pageSize , $event)' type="text" placeholder='搜索项目或客户名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl stateTitle title">
+                项目来源：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(source , type , keyword, currentPage , pageSize)' ng-model='source' ng-options='type.id as type.name for type in orderSource'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+            <div class="fl stateTitle title">
+                客户类别：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(source , type , keyword, currentPage , pageSize)' ng-model='type' ng-options='state.id as state.name for state in customerType'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td id='td1'>项目名称</td>
+                    <td id='td2'>费用</td>
+                    <td id='td3'>项目来源</td>
+                    <td id='td4'>金额（元）</td>
+                    <td id='td5'>投放时间</td>
+                    <td id='td6'>客户名称</td>
+                    <td id='td7'>客户类别</td>
+                    <td id='td8' style="min-width: 100px">广告单数量</td>
+                    <td id='td9'>广告单状态</td>
+                    <td id='td10'>操作</td>
+
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish >
+                        <td class='tal td1' title='{{data.projectName}}' ng-click='show_project_detail(data.projectId)'>
+                            {{data.projectName | limitLength}}
+                        </td>
+                        <td class='td2' ng-if='data.projectCosts.length == 2'>
+                            内容制作费<br>媒体投放费
+                        </td>
+                        <td class='td2' ng-if='data.projectCosts.length == 1'>
+                            {{data.projectCosts | getProjectCost}}
+                        </td>
+                        <td class='td3'>{{data.projectSource | getProjectSource}}</td>
+                        <td class='td4'>{{data.projectAmount}}</td>
+                        <td class='td5'>{{data.projectBegintime}} 到 {{data.projectEndtime}}</td>
+                        <td class='td6'>{{data.customerName}}</td>
+                        <td class='td7'>{{data.customerCategory | getCustomerCategory}}</td>
+                        <td class='td8' style="min-width: 100px">{{data.cinemaAdbillSize}}</td>
+                        <td class='td9'>
+                            <p><span  ng-if='data.cinamaAdbillStatus.waiting != 0' class='doing waiting' ui-sref='app.order.checkSheetList'>{{data.cinamaAdbillStatus.waiting}}个待审核</span><span ng-if='data.cinamaAdbillStatus.doing != 0' class='doing' >{{data.cinamaAdbillStatus.doing}}个投放中</span></p>
+                            <p><span ng-if='data.cinamaAdbillStatus.finish != 0' class="finish tal">{{data.cinamaAdbillStatus.finish}}个已结束</span>
+                                <span ng-if='data.cinamaAdbillStatus.forbid != 0' class="finish tal">{{data.cinamaAdbillStatus.forbid}}个审核不通过</span></p>
+                        </td>
+                        <td class="operateBtn td10">
+
+                            <a ng-if='data.cinemaAdbillSize == 0' href="javascript:;" title='项目编辑' ng-click='editProject(data.projectId , data)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-bianji'></i></a>
+
+                            <a href="javascript:;" title='查看广告单' ng-click='showAdList(data.projectId,data.projectName,data.cinemaAdbillSize)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-chakan'></i></a>
+
+                            <a ng-if='data.cinemaAdbillSize == 0' href="javascript:;" title='删除项目' ng-click='delete(data.projectId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+                            <a href="javascript:;" title='播放统计' ng-click='getCount(data.projectName,data.cinemaAdbillSize,data.projectId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-navicon01"></i></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有项目</p>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(source , type , keyword, currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

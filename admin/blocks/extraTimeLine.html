@@ -1,0 +1,30 @@
+<div class="wrap">
+    <div class="taskTime lineTime fl">
+        <div class=" dateFromCtrl">
+            <div class="input-group">
+                <input w5c-dynamic-element  class="form-control dateCtrl timeLine input-group-addon"  ng-change='myChange()' ng-model="fromTime" datetimepicker options="$parent.timeOption"
+                       required />
+                           <span class="input-group-addon">
+                               <span class="iconfont icon-select"></span>
+                           </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="taskLine fl">
+        <div class="arroLine"></div>
+    </div>
+
+    <div class="taskTime lineTime fr">
+        <div class="dateFromCtrl">
+            <div class="input-group" >
+                <input w5c-dynamic-element class="form-control dateCtrl timeLine input-group-addon"  ng-change='myChange()' datetimepicker ng-model="finishTime" options="$parent.timeOption"
+                       required />
+                           <span class="input-group-addon" datepicker-style>
+                                <span class="iconfont icon-select"></span>
+                           </span>
+            </div>
+        </div>
+    </div>
+    <i class='delectIcon iconfont icon-shanchu' ng-click='remove()'></i>
+</div>

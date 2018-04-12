@@ -1,0 +1,137 @@
+<div id="addProgram" class="clearfix" ng-controller='addProgramCtrl'>
+
+    <div class="fl returnBefore" ui-sref='app.program.programList'>返回上一级&nbsp;&nbsp;|</div>
+    <div class="fl editProName" ng-show="!editProName">
+        <span>{{programName}}</span>&nbsp;&nbsp;<i class='iconfont icon-bianji' ng-click="editName()"></i>
+    </div>
+    <div class="fl programName" ng-show="editProName">
+        <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+              w5c-form-validate="vm.validateOptions" novalidate name="validateForm" ng-submit='addProName(programName,materialListId)'>
+
+            <div class="clearfix">
+                <div class="inputArea">
+                    <input placeholder="请输入节目单名称" required=""  ng-model="programName" ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_]+$/"
+                           class="groupNameFocus form-control proName" name="programName" ng-maxlength='20' >
+                </div>
+
+                <div class="saveBtn">
+                    <button class="btn btn-info btnSubmit" ng-disabled='form.$invalid'><i class="iconfont icon-gougou done"></i></button>
+                    <a class="btn btn-info btnSubmit1" ng-click="clearName()"><i class="iconfont icon-cuowu wrong"></i></a>
+                    <span class="errorMsg" ng-if='errorMsg'>该节目单已存在</span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="addProCtrlGroup clearfix">
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn "  ng-click="delete(programSelectedArr,false)">
+                <i class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除所选</button>
+        </div>
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn " ng-click="submit(materialListId,datas)">
+                <i class='iconfont icon-baocun'></i>&nbsp;&nbsp;保存节目</button>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="proCtrlWrap clearfix" id="contentHeight" body-height="contentHeight 230">
+        <!--左侧导入操作栏-->
+        <div class="proLeft fl" ng-controller='treeNodeCtrl'>
+            <div class="MaterialCtrl">
+                <div class=" searchGroup">
+                    <i class='iconfont icon-sousuo_sousuo'></i>
+                    <input ng-keyup='searchKeyword(keyword)' type="text" id="keyword" placeholder='搜索素材名称' ng-model='keyword'>
+                </div>
+                <div id="scrollleft" class="optiscroll is-enabled has-vtrack" scroll-height="scrollleft 345">
+                    <ul class="programTree ztrees" id="treeNodes">
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="footBtnGroup">
+                <div class="cancelChoose" ng-click="cancelSelect()">
+                    <span>取消选择</span>
+                </div>
+                <div class="importMedia" ng-click="importMedia()">
+                    <span>导入素材</span>&nbsp;&nbsp;<i class='iconfont icon-jiantou1'></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!--右侧列表显示栏-->
+        <div class="proRight fl">
+            <div class="programTable">
+                <table class="table" style="margin-bottom: 0px">
+                    <thead>
+                    <tr>
+                        <td class='theadCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox"
+                                       ng-click="selectAll(programSelectedArr , $event , datas , 'uid')"
+                                       ng-checked='isSelectedAll(programSelectedArr ,datas)'><i></i>
+                            </label>
+                        </td>
+                        <td>排序</td>
+                        <td>素材名称</td>
+                        <td>时长</td>
+                        <td>修改时间</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="optiscroll" id="scrollRight" scroll-height="scrollRight 360">
+                    <table class="table">
+                        <tbody>
+                        <!--列表获取展示行-->
+                        <tr ng-repeat='data in datas track by $index'
+                            ng-class="{'selectedTr' : isSelected(programSelectedArr , data.uid)}">
+                            <td class='tbodyCheckBox'>
+                                <label class="i-checks m-b-none">
+                                    <input type="checkbox" name='selected' value='{{data.uid}}'
+                                           ng-model='data.checked' ng-checked='isSelected(programSelectedArr , data.uid)'
+                                           ng-click="updateSelection(programSelectedArr , $event , data.uid)"><i></i>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" class="text" ng-model="data.orderNumber" fdc-filter='data.orderNumber' maxlength="4" />
+                            </td>
+                            <td class='tal dirName tableDirName' >
+                            <span title='{{data.name}}' class='dataName'>
+                                <i class='typeIcon' ng-class='data.format | formatIcon' ></i>&nbsp;&nbsp;
+                                {{data.name | limitLength:30}}
+                            </span>
+                            </td>
+                            <td>{{data.format == 'picture'?'00:00:10':data.format == 'other'?'00:00:00':(data.duration | timeChange )}}</td>
+                            <td>{{data.updateTime==null?'-':data.updateTime}}</td>
+                            <td class="operateBtn ">
+                                <a href="javascript:;" title='删除'  ng-click='delete($index,true)'>
+                                    <i class="iconfont  icon-shanchu"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="noData" ng-if='datas | showNoData'>
+                        <div class="noDataImg"></div>
+                        <p>您还没上传过素材哦，点击左侧导入素材按钮~</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+</div>

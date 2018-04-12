@@ -1,0 +1,23 @@
+<div id="rejectRequestModal">
+    <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+          w5c-form-validate="vm.validateOptions" novalidate name="validateForm"  autocomplete="off" disableautocomplete>
+        <div class="rejectArea">
+            <p>驳回理由:</p>
+            <select class="form-control m-b" ng-model="data.reason" required='' name="rejectReson">
+                <option value="内容不合规">内容不合规</option>
+                <option value="排期冲突">排期冲突</option>
+                <option value="取消播放计划">取消播放计划</option>
+
+            </select>
+            <p>备注:</p>
+            <textarea  class='rejectArea' ng-model='data.reasonInfo'placeholder='请填写驳回原因' name='rejectRequest' required="" ng-maxlength="200"></textarea>
+            <!--<p class="num">{{data.name.length}}/200</p>-->
+
+            <div class="modal-footer">
+                <a class="btnSubmit" ng-click="cancel()">取消</a>
+                <a class="btnSubmit" w5c-form-submit='doSubmit()'>提交</a>
+            </div>
+        </div>
+    </form>
+</div>
+

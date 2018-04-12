@@ -1,0 +1,40 @@
+<div id="memberList" class="clearfix" ng-controller="memberManagerCtrl">
+<div class="member-header">
+    <div class="managers">
+        <div class="manager chengyuan"><i class="iconfont icon--_chengyuan"></i>成员管理</div>
+        <div class="manager" ui-sref="app.role.roleList"><i class="iconfont icon-quanxian1"></i>权限管理</div>
+    </div>
+    <div class="header-right">
+        <div class="search">
+            <i class="iconfont icon-sousuo_sousuo"></i>
+            <input type="text" placeholder="搜索关键字" ng-model="keyword" class="search-box" maxlength="30" ng-keyup='searchMember(keyword,$event)'>
+        </div>
+        <div class="delete" ng-click="deleteMember()"><i class="iconfont icon-shanchu"></i>删除所选</div>
+    </div>
+</div>
+
+<div class="member-lists optiscroll" id="scroll">
+    <div class="add-member" >
+        <div class="circle" ng-click="addMember()">
+            <div class="h"></div>
+            <div class="v"></div>
+        </div>
+    </div>
+
+    <div ng-class="{'selected-card member-card' : item.checked,'member-card' : !item.checked }" ng-repeat="item in memberList" show-checkbox
+        id="{{item.userId}}">
+
+        <div class="first-name" ng-click="showDetailMember(item.userId)"><span>{{item.userName | firstName}}</span></div>
+        <i class="iconfont icon-cuowu close-icon {{item.userId}}" ng-click="deleteMember(item.userId)"></i>
+        <label class="i-checks m-b-none">
+            <input type="checkbox" ng-checked="isChecked(item.userId)" ng-model='item.checked' ng-click="updateSelection($event,item.userId)"/>
+            <i></i>
+        </label>
+        <p class="name" ng-click="showDetailMember(item.userId)">{{item.userName}}</p>
+        <p class="level" ng-click="showDetailMember(item.userId)">{{item.roleName}}</p>
+        <p class="email" ng-click="showDetailMember(item.userId)">{{item.email}}</p>
+        <p class="department" ng-click="showDetailMember(item.userId)">{{item.departName}}</p>
+        <i class="iconfont icon-bianji edit" ng-click="editMember(item.userId)"></i>
+    </div>
+</div>
+</div>

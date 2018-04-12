@@ -1,0 +1,153 @@
+<div class='clearfix order' ng-controller='adProjectCountCtrl'>
+    <!--播放统计-->
+
+    <div class="tabs fl">
+        <a class="returnButton" ng-click="returnBack()">返回上一级</a>
+    </div>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+        <div class="fr selectGroup">
+
+            <div class="fl stateTitle title">
+                项目名称: {{projectName}}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div class="fl stateTitle title" ng-if="isAdInto">
+                广告单名称：
+            </div>
+
+            <div class="fl stateTitle title" ng-if="!isAdInto">
+                广告单数量：{{projectNum}}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div class="fl stateTitle title" ng-if="!isAdInto">
+                广告单：
+            </div>
+            <div class="fl deviceState selectSquare" >
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(1,pageSize,adSelectBillId)' ng-if="!isAdInto"  ng-model='adSelectBillId' ng-options='type.billId as type.billName for type in adList'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(1,pageSize,adSelectBillId)' ng-if="isAdInto" disabled="disabled" ng-model='adSelectBillId' ng-options='type.billId as type.billName for type in adList'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" adaptive-table >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom: 0px">
+                <div>
+                    <span class="detailTitle">详细数据</span>       
+                    <div class=" btn-group fr" role="group" aria-label="...">
+                        <button type=" button" class=" btn mediaBtn uploadMedia" ng-click="exportData(projectId,'',adSelectBillId,projectName,'','')">
+                            <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;导出数据
+                        </button>
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <td id='td1'>播放时间</td>
+                    <td id='td2'>播放总次数</td>
+                    <td id='td3'>覆盖城市</td>
+                    <td id='td4'>覆盖点位</td>
+                    <td id='td5'>覆盖人数</td>
+                    <td id='td6'>操作</td>
+
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish >
+                        <td class='tal td1' title='{{data.date}}'>
+                            {{data.date}}
+                        </td>
+                        <td class='td2'>{{data.playCount}}</td>
+                        <td class='td3'>{{data.cityCount}}</td>
+                        <td class='td4'>{{data.pointCount}}</td>
+                        <td class='td5'>{{data.wifiCount}}</td>
+                        <td class="operateBtn td6">
+
+                        <a href="javascript:;" title='查看详情'  ui-sref="app.order.adProjectCountDetail({id:projectId,projectName:projectName,date:data.date,projectNum:projectNum,isAdInto:isAdInto,billId:adSelectBillId})">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-chakan' ></i></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--模态框测试-->
+                <!--<a ng-click='setTime()'>点击</a>-->
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有数据</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(currentPage,pageSize,adSelectBillId)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

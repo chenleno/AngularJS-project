@@ -1,0 +1,175 @@
+<div class="defaultPlayList" class='clearfix' ng-controller='defaultPlayListCtrl'>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+        <p class="head">点位类型</p>
+        <div class=" btn-group fl" role="group">
+            <button type=" button" class=" btn mediaBtn mediaType" ng-class="{true : 'select'}[pointType == 1]" ng-click='queryList(1)'>3*3
+            </button>
+        </div>
+        <div class=" btn-group fl" role="group">
+            <button type=" button" class=" btn mediaBtn mediaType" ng-class="{true : 'select'}[pointType == 2]" ng-click='queryList(2)'>3*4
+            </button>
+        </div>
+        <div class=" btn-group fl" role="group">
+            <button type=" button" class=" btn mediaBtn mediaType" ng-class="{true : 'select'}[pointType == 3]" ng-click='queryList(3)'>1+1
+            </button>
+        </div>
+        <div class=" btn-group fl" role="group">
+            <button type=" button" class=" btn mediaBtn mediaType" ng-class="{true : 'select'}[pointType == 4]" ng-click='queryList(4)'>单屏
+            </button>
+        </div>
+        <div class=" btn-group fl" role="group">
+            <button type=" button" class=" btn mediaBtn mediaType" ng-class="{true : 'select'}[pointType == 5]" ng-click='queryList(5)'>1+1+1
+            </button>
+        </div>
+
+        <div class=" btn-group fr" role="group">
+            <button type=" button" class=" btn mediaBtn uploadMedia" ng-click='creat(pointType)'>添加素材
+            </button>
+        </div>
+
+        <!--<div class="fr searchGroup">-->
+            <!--<i class='iconfont icon-sousuo_sousuo' ng-click='search( source , type , keyword, currentPage , pageSize)'></i>-->
+            <!--<input ng-keyup='search( source , type , keyword, currentPage , pageSize , $event)' type="text" placeholder='搜索项目或客户名称' ng-model='keyword'>-->
+        <!--</div>-->
+
+    </div>
+
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td id='td1'>名称</td>
+                    <td id='td2'>主屏素材</td>
+                    <td id='td3'ng-show="pointType != 1 && pointType != 4">副屏素材</td>
+                    <td id='td4' ng-show=" pointType == 5">右屏素材</td>
+                    <td id='td5'>状态</td>
+                    <td id='td6'>操作</td>
+
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' >
+                        <td class='td1' title='{{data.resouceName}}'>
+                            {{data.resouceName | limitLength}}
+                        </td>
+                        <td class='td2 tal'>
+                            <div  ng-repeat="dataChild in data.resourceItems">
+                                <p ng-if="dataChild.screenSeq == 1 " title="{{dataChild.resourceName}}"><i class='typeIcon videoType'></i>&nbsp;&nbsp;{{dataChild.resourceName | limitLength}}</p>
+                            </div>
+                        </td>
+                        <td class='td3 tal' ng-show="pointType != 1 && pointType != 4">
+                            <div  ng-repeat="dataChild in data.resourceItems">
+                                <p ng-if="dataChild.resourceType == 'picture' " title="{{dataChild.resourceName}}"><i class='typeIcon picType'></i>&nbsp;&nbsp;{{dataChild.resourceName | limitLength}}</p>
+                            </div>
+                        </td>
+                        <td class='td4 tal' ng-show="pointType == 5">
+                            <div  ng-repeat="dataChild in data.resourceItems">
+                                <p ng-if="dataChild.screenSeq == 3 " title="{{dataChild.resourceName}}"><i class='typeIcon videoType'></i>&nbsp;&nbsp;{{dataChild.resourceName | limitLength}}</p>
+                            </div>
+                        </td>
+                        <td class='td5'>{{data.resouceStatus == 1 ? '有效' : '无效' }}</td>
+                        <td class="operateBtn td6">
+
+                            <a href="javascript:;" ng-if="$first" title='上移'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-shangyi"  style="color: #889098"></i></a>
+
+                            <a href="javascript:;" ng-if="!$first" title='上移' ng-click='up(data.defaultId , pointType)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-shangyi"></i></a>
+
+                            <a href="javascript:;" ng-if="!$last" title='下移' ng-click='down(data.defaultId , pointType)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-xiayi'></i></a>
+
+                            <a href="javascript:;" ng-if="$last" title='下移' >
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-xiayi' style="color: #889098"></i></a>
+
+                            <a href="javascript:;" title='编辑' ng-click='creat(pointType,data.defaultId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-bianji'></i></a>
+
+                            <a href="javascript:;" title='删除' ng-click='opt(data.defaultId , 0)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+
+                            <a href="javascript:;" ng-show="data.resouceStatus == 1" title='有效' ng-click='opt(data.defaultId , 2)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-on"></i></a>
+                            <a href="javascript:;" ng-show="data.resouceStatus == 2" title='无效' ng-click='opt(data.defaultId , 1)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-off1"></i></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有项目</p>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!--分页-->
+        <!--<div class="pageSquare clearfix">-->
+            <!--<div class="myPagination clearfix fr">-->
+                <!--<div class="jumpPage text-sm pageInfo">-->
+                    <!--&lt;!&ndash;(每页显示&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class=" pageSelect">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-options='page.name as page.name for page in pageSizeList' >&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;条，&ndash;&gt;-->
+                    <!--当前第{{currentPage}}页 / 共{{numPages}}页-->
+                    <!--&lt;!&ndash;跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'&ndash;&gt;-->
+                    <!--&lt;!&ndash;onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页&ndash;&gt;-->
+                <!--</div>-->
+                <!--<pagination class="pagination-sm m-t-none m-b"-->
+
+                            <!--total-items="totalItems"-->
+                            <!--ng-model="currentPage"-->
+                            <!--force-ellipses="true"-->
+                            <!--boundary-links="true"-->
+                            <!--rotate="false"-->
+                            <!--num-pages="numPages"-->
+                            <!--max-size="maxSize"-->
+                            <!--items-per-page="pageSize"-->
+
+                            <!--ng-change="query(source , type , keyword, currentPage , pageSize)"-->
+                            <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+                <!--</pagination>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>

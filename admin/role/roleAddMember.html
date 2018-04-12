@@ -1,0 +1,38 @@
+<div id="addMemberList" class="clearfix" ng-controller="addMemberManagerCtrl">
+    <div class="member-header">
+        <div class="managers">
+           <span class="head-return"  ui-sref="app.role.roleList">返回上一级&nbsp;&nbsp;|</span>
+            <span class="head-name">&nbsp;&nbsp;{{$stateParams.name}}&nbsp;&nbsp;</span>
+        </div>
+        <div class="header-right">
+            <div class="search">
+                <i class="iconfont icon-sousuo_sousuo" ng-click='searchMember(keyword)'></i>
+                <input type="text" placeholder="搜索关键字" ng-model="keyword" class="search-box" maxlength="30" ng-keyup='searchMember(keyword,$event)'>
+            </div>
+            <div class="delete" ng-click="deleteMember(selected)"><i class="iconfont icon-shanchu"></i>删除所选</div>
+        </div>
+    </div>
+
+    <div class="member-lists optiscroll" id="scroll">
+        <div class="add-member" >
+            <div class="circle" ng-click="addMember()">
+                <div class="h"></div>
+                <div class="v"></div>
+            </div>
+        </div>
+        <div ng-class="{'selected-card member-card' : item.checked,'member-card' : !item.checked }" ng-repeat="item in memberList"
+              id="{{item.user_id}}">
+            <div class="first-name"><span>{{item.user_name | firstName}}</span></div>
+            <i class="iconfont icon-cuowu close-icon {{item.user_id}}" ng-click="deleteMember(item.user_id)"></i>
+            <label class="i-checks m-b-none">
+                <input type="checkbox" ng-checked="isChecked(item.user_id)" ng-model='item.checked' ng-click="updateSelection($event,item.user_id)"/>
+                <i></i>
+            </label>
+            <p class="name">{{item.user_name}}</p>
+            <!--<p class="level" ng-click="showDetailMember(item.userId)">{{item.roleName}}</p>-->
+            <p class="email">{{item.email}}</p>
+            <p class="department">{{item.depart_name}}</p>
+            <!--<i class="iconfont icon-bianji edit" ng-click="editMember(item.userId)"></i>-->
+        </div>
+    </div>
+</div>

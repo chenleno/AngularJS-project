@@ -1,0 +1,137 @@
+<div class="add_modal" >
+
+    <div class="modal_content add_project">
+        <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+              w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+            <div class="input-class">
+                <label>项目名称： </label>
+                <input class='inputText' type="text"  ng-model="data.projectName" name='projectName' ng-pattern='/^[\u4E00-\u9FA5A-Za-z0-9_]+$/'
+                       required="" maxlength="30"/>
+            </div>
+
+            <div class="input-class">
+                <label>项目来源： </label>
+                <div class="radio">
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.projectSource'   value=1>
+                        <i></i>
+                        出售
+                    </label>
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.projectSource'   value=2 >
+                        <i></i>
+                        赠送
+                    </label>
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.projectSource'   value=3 >
+                        <i></i>
+                        自营
+                    </label>
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.projectSource'   value=4 >
+                        <i></i>
+                        置换
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="input-class">
+                <label>费用： </label>
+
+                <label class="i-checks m-b-none multiple_check" ng-repeat='way in wayList'>
+                    <input type="checkbox" name='selected' value='{{way.id}}'
+                           ng-model='checked'
+                           ng-checked='isSelected(waySelectedArr , way.id)'
+                           ng-click="updateSelection(waySelectedArr , $event , way.id)"><i></i>
+                    {{way.name}}
+                </label>
+
+            </div>
+            <div class="input-class">
+                <label>金额(元)： </label>
+                <input class='inputText' type="text" required="" ng-pattern='/^([1-9]\d{0,9}|0)([.]?|(\.\d{1,2})?)$/' name='projectBudget' 
+                       ng-model="data.projectAmount" ng-maxlength='8'
+                />
+            </div>
+            <div class="input-class">
+                <label>投放时间： </label>
+                <!--日期-->
+                <div class="setDate">
+                    <div class="taskTime fl">
+                        <div class=" dateFromCtrl">
+                            <div class="input-group">
+                                <input class="form-control dateCtrl"  ng-model="data.fromDate" datetimepicker id="dataOne" options="options"
+                                       name="date" required  placeholder="起始日期" />
+                                            <span class="input-group-addon">
+                                                <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="taskLine fl">
+                        <div class="arroLine"></div>
+                    </div>
+
+                    <div class="taskTime fr">
+                        <div class="dateFromCtrl">
+                            <div class="input-group" >
+                                <input class="form-control dateCtrl" datetimepicker ng-model="data.endDate" options="options"
+                                       name="endDate" required  placeholder="结束日期" id="dataTwo"/>
+                                            <span class="input-group-addon" datepicker-style>
+                                                 <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="input-class">
+                <label>客户名称： </label>
+                <input class='inputText' type="text" required="" ng-pattern='/^[\u4E00-\u9FA5A-Za-z0-9_]+$/' name='customName'
+                       ng-model="data.customerName" ng-maxlength='30'
+                />
+            </div>
+
+            <div class="input-class">
+                <label>客户类别： </label>
+                <div class="radio">
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.customerCategory'   value=1>
+                        <i></i>
+                        直客
+                    </label>
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.customerCategory'   value=2 >
+                        <i></i>
+                        代理
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>联系人： </label>
+                <input class='inputText' type="text" required="" name='customerContacts' ng-pattern='/^[\u4E00-\u9FA5A-Za-z0-9_]+$/'
+                       ng-model="data.linkmanName" ng-maxlength='30'
+                />
+            </div>
+
+            <div class="input-class">
+                <label>联系电话： </label>
+                <input class='inputText' type="text" name='mobile'
+                       ng-model="data.linkmanPhone" ng-pattern='/^1(3|4|5|7|8)[0-9]\d{8}$/'
+                />
+            </div>
+
+            <div class="button-bottom">
+                <a class="cancel" ng-click="cancel()">取消</a>
+                <button class="addMember" ng-disabled='noRepeat' w5c-form-submit='submit()' ng-show="editMode">保存编辑</button>
+                <button class="addMember" ng-disabled='noRepeat' w5c-form-submit='submit()' ng-show="!editMode">确定添加项目</button>
+            </div>
+
+        </form>
+    </div>
+</div>

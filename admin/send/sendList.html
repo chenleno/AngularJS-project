@@ -1,0 +1,144 @@
+<div id="sendList" class="clearfix" ng-controller='sendCtrl'>
+
+    <!--button-group-->
+    <div class="mediaCtrlGroup clearfix">
+
+        <div class=" btn-group fr" role="group">
+            <button create-focus type=" button" class=" btn mediaBtn createDirBtn" ng-click="checkBtn('/api/mps-materialList/task','post','app.send.addSendTask')"
+                    ><i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;新建任务</button>
+
+            <button create-focus type=" button" class=" btn mediaBtn createDirBtn"   ng-click='delete(sendSelectedArr)'
+                    ><i class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除所选</button>
+
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div class="mediaListCtrl" id='sendListCtrl' body-height="sendListCtrl 230">
+
+        <div class="mediaTable">
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td class='theadCheckBox' id="td1">
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox"
+                                   ng-click="selectAll(sendSelectedArr , $event , sendList , 'taskId')"
+                                   ng-checked='isSelectedAll(sendSelectedArr ,sendList)'><i></i>
+                        </label>
+                    </td>
+                    <td id="td2">任务ID</td>
+                    <td id="td3">节目单名称</td>
+                    <td id="td4">设备数量</td>
+                    <td id="td5">发送类型</td>
+                    <td id="td6">执行装态</td>
+                    <td id="td7">操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" scroll-height="scroll 300">
+                <table class="table">
+                    <tbody>
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in sendList track by $index' on-finish
+                        ng-class="{'selectedTr' : isSelected(sendSelectedArr , data.taskId),'editTr' : editDirBool }">
+
+                        <td class='td1 tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.taskId}}' ng-disabled='addDirBool? true: false'
+                                       ng-model='data.checked' ng-checked='isSelected(sendSelectedArr , data.taskId)'
+                                       ng-click="updateSelection(sendSelectedArr , $event , data.taskId)"><i></i>
+                            </label>
+                        </td>
+                        <td class="td2">{{data.taskId}}</td>
+                        <td class="td3">
+                            <span title='{{data.name}}'>
+                                {{data.name | limitLength}}
+                            </span>
+                        </td>
+                        <td  class="td4">{{data.count}}</td>
+                        <td  class="td5">{{data.sendState=='1'?'实时':'定时'}}</td>
+                        <td  class="td6"><i class='iconfont' ng-class="{'icon-tishi yellow' : data.executeState==1, 'icon-gougou blue' : data.executeState==3, 'icon-cuowu yellow' : data.executeState==4 || data.executeState==5, 'icon-dingshi blue' : data.executeState==6}"></i>&nbsp;&nbsp;
+                            {{data.executeState | sendExecuteState}}</td>
+                        <td class="operateBtn td7">
+                            <a href="javascript:;" title='预览' ng-click="openPlay(data.taskId)">
+                                <i class='iconfont icon-shipin' ></i></a>
+
+                            <div class="btn-group" role="group" style="top:-1px" >
+                                <button href="javascript:;" title='审核' ng-class="{'disableBtn' : data.executeState!=1}" ng-disabled='data.executeState!=1' class="dropdown-toggle dropBtn" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="iconfont  icon-shenhe2"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a ng-click="rejectPass(data.taskId)">通过</a></li>
+                                    <li><a ng-click="rejectRequest(data.taskId)">驳回</a></li>
+
+                                </ul>
+                            </div>
+
+                            <a href="javascript:;" title='编辑' ng-click="checkBtn('/api/mps-materialList/task/:taskId','PUT','app.send.editSendTask',{id:data.taskId})" >
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-bianji"></i></a>
+
+                            <a href="javascript:;" title='删除'  ng-click='delete(data.taskId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="noData" ng-if='sendList | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>您还没创建过任务哦，点击 <a ng-click="checkBtn('/api/mps-materialList/task','post','app.send.addSendTask')">新建任务</a> 按钮~</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--//播放器遮罩-->
+    <div class="modal-backdrop fade in" id="videoMask"></div>
+    <div id="video" class="video">
+        <div class="video-body">
+            <video id="my-video" class="video-js vjs-big-play-centered " controls preload="auto" width="900" height="580"
+                   data-setup="{}">
+                <!--<source src="2.mp4" type='video/mp4'>-->
+                <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                <!--<p class="vjs-no-js">-->
+                    <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                    <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                <!--</p>-->
+            </video>
+            <a href="javascript:;" class="closePlay" ng-click="closePlay()">
+                <i class="iconfont  icon-cuowu"></i>
+            </a>
+            <div class="videoPic"  ng-if="imgOnly" >
+                <img ng-src="{{picPath}}" alt=""/>
+            </div>
+        </div>
+
+        <div id="videoList" class="videoList picScroll-left">
+            <div class="btnLeft prev">
+                <i class="iconfont  icon-shangyige"></i>
+            </div>
+            <div class="bd videoListInfo">
+                <ul class="picList">
+                    <li ng-repeat='data in dataImg' ng-click="openOtherPlay(data.picPath,data.videoPath)">
+                        <div class="pic"><a href="javascript:;"><img ng-src="{{ address+data.picPath}}" /></a></div>
+                        <span class="playBtn" ng-show="data.videoPath != '' ">
+                            <i class="iconfont  icon-bofang1"></i>
+                        </span>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="btnLeft  btnRight next">
+                <i class="iconfont  icon-xiayige"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+

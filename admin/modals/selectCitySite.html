@@ -1,0 +1,68 @@
+<div class="addMember" id='selectCitySiteModel'>
+    <form name='form' class="form-horizontal w5c-form demo-form" role="form" w5c-form-validate="vm.validateOptions" novalidate
+        name="validateForm" ng-submit='addPermissionList(roleId)'>
+
+        <h3 class="title">选择投放城市</h3>
+
+
+           <div class="addPermissionPanel fade-in-up" >
+
+                <div class="panel-body">
+                    <!--<div class="col-lg-2"></div>-->
+                    <div class="tab-container " >
+
+                        <div class="permissionClass">
+                                <!--data遍历出datas中的所有类别对象-->
+                                <!--<div class="table-responsive permissionTab" >
+                                    <div class="group col-lg-12 titleStyle" >
+                                        <label class="i-checks m-b-none">
+                                            <input type="checkbox" id="allCheck"
+                                                   ng-checked='isSelectedAllRole(perSelectedArr[0] , permissionDatas , true)'><i></i>
+
+                                            <span style="font-size: 12px;font-weight: 500">全选</span>
+                                        </label>
+                                    </div>
+                                </div>-->
+                                <div class="table-responsive permissionTab" >
+                                    <div class="warp" ng-repeat='data in permissionDatas'>
+                                        <!--data遍历出datas中的所有类别对象-->
+                                        <div class="group col-lg-12 titleStyle" >
+                                            <label class="i-checks m-b-none">
+                                                <input type="checkbox" class="parent2Check"
+                                                       ng-click="selectChildAll(perSelectedArr[0],perSelectedArr[$index+1], $event , data , 'city' , true);updateParentArr(perSelectedArr[0],perSelectedArr[$index+1],$event, data);"
+                                                       ng-checked='isChildSelectedAll(perSelectedArr[$index+1] , data , true)'><i></i>
+
+                                               <span><i class="{{getIcon($index)}}"></i> &nbsp;&nbsp;{{data.province}}</span>
+                                            </label>
+                                        </div>
+                                        <!--全选选项框-->
+                                        <div class="checkGroupChild">
+                                            <div class="group checkGroup" ng-repeat='action in data.cityList' >
+                                                <div>
+                                                    <label class="i-checks m-b-none">
+                                                        <input  type="checkbox"
+                                                                ng-checked='isSelected(perSelectedArr[0],action.city)'
+                                                                ng-click="updateSelection(perSelectedArr[0] , $event, action.city ,perSelectedArr[$parent.$index+1]);updateArr(perSelectedArr[0],action.city ,action.siteNum,action.pointIdList,$event);"><i></i>
+                                                        <span>{{action.city}}</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        <div class="button-bottom">
+            <label class="tipShow">已选择&nbsp;&nbsp;<span class="num">{{perSelectedArr[0].length}}</span>&nbsp;&nbsp;个城市，共&nbsp;&nbsp;<span class="num">{{allSiteNum}}</span>&nbsp;&nbsp;个点位 </label>
+            <a class="cancel" ng-click="cancel()">取消</a>
+            <button class="addMember" w5c-form-submit='submit()'>确定</button>
+        </div>
+    </form>
+</div>

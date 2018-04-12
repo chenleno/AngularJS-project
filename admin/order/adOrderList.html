@@ -1,0 +1,211 @@
+<div class='clearfix order' ng-controller='adOrderlistCtrl'>
+
+    <!--<div class="tabs fl">
+        <div class="tabBtn listMedia" ui-sref="app.order.orderList"><i class="iconfont icon-bendishangchuan"></i>项目列表</div>
+        <div class="tabBtn " ui-sref="app.order.checkSheetList"><i class="iconfont icon-shenhe2"></i>广告单审核<s  class='countNum'>21</s></div>
+    </div>-->
+
+    <div class="tabs fl">
+        <a class="returnButton" ng-click="returnBack()">返回上一级</a>
+    </div>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia" ng-click="addAdOrder()">
+                <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;新增广告单
+            </button>
+        </div>
+
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search( billType , billStatus , pointType , billName , currentPage , pageSize)'></i>
+            <input ng-keyup='search( billType , billStatus , pointType , billName , currentPage , pageSize  , $event )' type="text" placeholder='搜索广告单名称'
+                ng-model='billName'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl stateTitle title">
+                广告类型：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='search( billType , billStatus , pointType , billName , currentPage , pageSize   )'
+                    ng-model='billType' ng-options='type.id as type.name for type in adType'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+            <div class="fl stateTitle title">
+                点位类型：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='search( billType , billStatus , pointType , billName  , currentPage , pageSize  )'
+                    ng-model='pointType' ng-options='state.id as state.name for state in tempType'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+            <div class="fl stateTitle title">
+                状态：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='search( billType , billStatus , pointType , billName  , currentPage , pageSize )'
+                    ng-model='billStatus' ng-options='state.id as state.name for state in statusType'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" adaptive-table>
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                    <tr>
+                        <td id='td1'>广告单名称</td>
+                        <td id='td2'>广告类型</td>
+                        <td id='td3'>播放时长</td>
+                        <td id='td4'>投放点位数</td>
+                        <td id='td5'>点位类型</td>
+                        <td id='td6'>投放日期</td>
+                        <td id='td7'>播放次数</td>
+                        <td id='td8' style="min-width: 105px">定制播放时段</td>
+                        <td id='td9'>状态</td>
+                        <td id='td10'>操作</td>
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+                        <!--列表获取展示行-->
+                        <tr ng-repeat='data in datas track by $index' on-finish>
+                            <td class='tal td1' title='{{data.billName}}' ng-click="adOrderDetail(data.billId)">
+                                {{data.billName}}
+                            </td>
+                            <td class='td2'>{{data.billType | billType}}</td>
+                            <td class='td3'>{{data.fileDuration | timeChange}}</td>
+                            <td class='td4'>{{data.pointCount}}</td>
+                            <td class='td5'>{{data.pointType | getPTtype}}</td>
+
+                            <td class='td6' ng-if="data.beginTime">{{data.beginTime}} 到 {{data.endTime}}</td>
+                            <td class='td6' ng-if="!data.beginTime"></td>
+
+                            <td class='td7'>{{(data.showCountday == null || data.showCountday == '') ? '不限' : data.showCountday }}</td>
+                            <td class='td8' style="min-width: 105px">{{data.isAdded | showTimeFlag}}</td>
+                            <td class='td9'>
+                                {{data.billStatus | statusType}}
+                            </td>
+                            <td class="operateBtn td10">
+
+
+                                <!--原switch-->
+                                <!--<label class="i-switch bg-diy" title='{{data.state == "在线" ? "关机" : "开机"}}' ng-hide='data.state == "离线"'>-->
+                                <!--<input  type="checkbox" ng-click='onOff(data.deviceId , data.state)' ng-checked='data.state | getOnOff'>-->
+                                <!--<i></i>-->
+                                <!--</label>-->
+                                <a href="javascript:;"  title='下刊' ng-hide='data.billStatus == 1 || data.billStatus == 2 || data.billStatus == 4 || data.billStatus == 5 || data.billStatus == 0' ng-click="adOrderDetail(data.billId,true)" >
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-xiajia'></i></a>
+
+                                <a href="javascript:;" title='编辑' ng-click='editAd(data.billId,data.billStatus)' ng-hide="data.billStatus == 4 || data.billStatus == 3">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-bianji' ></i></a>
+
+                                <a href="javascript:;" title="删除" ng-click="deleteAd(data.billId)" ng-show="data.billStatus == 0">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-shanchu"></i></a>
+
+                                <a href="javascript:;" title='排期表'  ui-sref="app.order.playList({id:data.billId,name:data.billName})" ng-hide="data.billStatus == 0">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-paiqibiao' style="font-size: 16px"></i></a>
+
+                                <a href="javascript:;" title='播放统计' ng-click="getCount(data.billId)">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-navicon01' style="font-size: 16px"></i></a>
+
+                                <a href="javascript:;" title="复制" ng-click="copy(data.billId)">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont icon-fuzhi1"></i></a>
+
+                            <!--<a href="javascript:; " ng-show="data.billStatus==4">-</a>-->
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--模态框测试-->
+                <!--<a ng-click='setTime()'>点击</a>-->
+
+                <div class="noData " ng-if='datas | showNoData'>
+                    <div class="noDataImg "></div>
+                    <p>当前还没有广告单</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix ">
+            <div class="myPagination clearfix fr ">
+                <div class="jumpPage text-sm pageInfo ">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect ">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number " check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select() " onkeyup="value=value.replace(/[^\d]/g, '') "-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event) ">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b "
+
+                            total-items="totalItems "
+                            ng-model="currentPage "
+                            force-ellipses="true "
+                            boundary-links="true "
+                            rotate="false "
+                            num-pages="numPages "
+                            max-size="maxSize "
+                            items-per-page="pageSize "
+
+                            ng-change="query(billType , billStatus , pointType , billName , currentPage , pageSize ) "
+                            previous-text="&lsaquo; " next-text="&rsaquo; " first-text="&laquo; " last-text="&raquo; ">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="clearfix"  id='addRoleMemberModal'>
+    <div class="memLeft">
+        <div class="searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click="searchMember('',keyword)"></i>
+            <input class="input" ng-keyup='searchMember($event,keyword)' type="text" placeholder='搜索成员姓名' ng-model='keyword'>
+        </div>
+        <div class="memList optiscroll" id="leftMember">
+            <div class="roleItem itemCtrl" ng-repeat='data in datas'>
+                <label class="i-checks m-b-none">
+                    <input type="checkbox" name='selected' value='{{data.userName}}'
+                           ng-model='data.checked' ng-checked='isSelected(selected , data.userId)'
+                           ng-click="updateSelection(selected , $event , data.userId,true)"
+                           ><i></i>
+                </label>
+                <span class="name" title={{data.userName}}>{{data.userName | limitLength:15}}</span>
+                <span class="email">{{data.email}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="memright">
+        <p class="head">
+            已选择成员
+        </p>
+        <div class="memberList optiscroll" id="rightMember">
+            <div class="roleItem itemCtrl" ng-repeat='data in selectedRoleMember'>
+                <span class="name" title={{data.user_name}}>{{data.user_name | limitLength:6}}</span>
+                <a href="javascript:;"ng-click="updateSelection(selected , $event , data.user_id,false)"><i class="iconfont icon-cuowu del"></i></a>
+            </div>
+        </div>
+        <a class="add" ng-click="ok()">添加成员</a>
+        <a class="cancel" ng-click="cancel()">取消</a>
+    </div>
+</div>

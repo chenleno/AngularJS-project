@@ -1,0 +1,629 @@
+#programList {
+  @dff : "微软雅黑";
+
+  .programCtrlGroup {
+    padding-bottom: 30px;
+    .mediaBtn {
+      background-color: rgba(0,0,0,0);
+      color: #889098;
+      font: 14px @dff;
+      border: 1px solid #c4c8cc;
+      margin-left: 22px;
+      transition: box-shadow 0.3s ease-in-out 0s,width 0.3s ease-in-out 0s;
+      &:hover {
+        background-color: #fff;
+        color : #f6911a;
+        border: 1px solid rgba(0,0,0,0);
+        box-shadow: 0 0 10px #d6d4d0;
+      }
+    }
+    .uploadMedia {
+      color: #f6911a;
+      border-color: #f6911a;
+    }
+  }
+
+  .proListCtrl {
+    background-color: #fff;
+    position: relative;
+    .proTable {
+      padding: 10px 30px;
+      box-shadow: 0 0 20px #d6d4d0;
+
+      .table {
+        font: 12px @dff;
+        thead {
+          tr {
+            td {
+              text-align: center;
+              padding: 20px 15px;
+              border-bottom: 1px solid #eaeff0;
+            }
+            .theadCheckBox {
+              width: 50px;
+              border-bottom: 1px solid #eaeff0;
+            }
+            td:nth-child(1){
+              width: 5%;
+            }
+            td:nth-child(2){
+              width: 30%;
+            }
+            td:nth-child(3){
+              width: 15%;
+            }
+            td:nth-child(4){
+              width: 15%;
+            }
+            td:nth-child(5){
+              width: 15%;
+            }
+            td:nth-child(6){
+              width: 20%;
+            }
+          }
+        }
+        tbody {
+          tr {
+            transition: all  0.2s ease-in-out 0s;
+            .edit {
+              display: none;
+            }
+            td {
+              text-align: center;
+              vertical-align: baseline;
+              padding: 20px 15px;
+            }
+            .newCheckbox {
+              width: 0.5% !important;
+            }
+            td:nth-child(1){
+              width: 5%;
+            }
+            td:nth-child(2){
+              width: 30%;
+            }
+            td:nth-child(3){
+              width: 15%;
+            }
+            td:nth-child(4){
+              width: 15%;
+            }
+            td:nth-child(5){
+              width: 15%;
+            }
+            td:nth-child(6){
+              width: 20%;
+            }
+            .newInput {
+              width: 100% !important;
+            }
+            .dirName {
+              width: 324px;
+              color: #28241f;
+              .icon-gougou {
+                color: #6b92e2;
+              }
+              .icon-cuowu {
+                color: #f0869a;
+              }
+            }
+            .tableDirName {
+              .dataName {
+                display: block;
+                cursor: pointer;
+                &:hover {
+                  color: #00a8f3;
+                }
+              }
+              .typeIcon {
+                vertical-align: middle;
+                display: inline-block;
+                width: 26px;
+                height: 26px;
+                background: url('../../img/icon_videopack.png') no-repeat;
+              }
+            }
+            .tbodyCheckBox {
+              border-bottom: 1px solid #fff;
+            }
+            .operateBtn {
+              width: 120px;
+              a {
+                i {
+                  font-size: 18px;
+                  color: #4095fe;
+                }
+              }
+              .dropdown-toggle {
+                box-shadow: none;
+              }
+              .dropdown-menu {
+                min-width: 95px;
+                top: 43px;
+                left: -50px;
+                .btn-group {
+                  perspective: 400px;
+                }
+                &:before {
+                  z-index: -1;
+                  content: '';
+                  width: 20px;
+                  height: 20px;
+                  background-color: #fff;
+                  position: absolute;
+                  top: -11px;
+                  right: 10px;
+                  transform: rotate(45deg);
+                  border-top: 1px solid #c4c8cc;
+                  border-left: 1px solid #c4c8cc;
+                }
+                ul {
+
+                }
+              }
+              li {
+                &:hover{
+                  transform:translateZ(-14px) scale(1);
+                }
+
+                a {
+                  position:relative;
+                  transform-style:preserve-3d;
+                  transition:0.2s;
+                  font-size: 13px;
+                  color: #889098;
+                  &:hover {
+                    transform:translateZ(14px) scale(1.1);
+                    background-color: #f6911a !important;
+                    color: #fff;
+                  }
+                }
+              }
+            }
+          }
+
+          .dirInput {
+            width: 230px;
+            height: 20px;
+            border: 1px solid #74b2fe;
+          }
+          .editTr {
+            .dataName {
+              display: none !important;
+            }
+            .edit {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+#addProgram {
+  @dff : "微软雅黑";
+  .ztrees *{
+    font-size: 12px;
+  }
+  .ztrees li a{
+    padding-left: 30px;
+    padding-right: 20px;
+  }
+  .addProCtrlGroup {
+    padding-bottom: 30px;
+    .mediaBtn {
+      background-color: rgba(0,0,0,0);
+      color: #889098;
+      font: 14px @dff;
+      border: 1px solid #c4c8cc;
+      margin-left: 22px;
+      transition: box-shadow 0.3s ease-in-out 0s,width 0.3s ease-in-out 0s;
+      &:hover {
+        background-color: #fff;
+        color : #f6911a;
+        border: 1px solid rgba(0,0,0,0);
+        box-shadow: 0 0 10px #d6d4d0;
+      }
+    }
+  }
+  .returnBefore{
+    color: #f6911a;
+    cursor: pointer;
+    margin-right: 10px;
+    line-height:26px;
+  }
+  .editProName {
+    line-height:18px;
+    span {
+      display: inline-block;
+      color: #889098;
+      font: 18px @dff;
+    }
+    i {
+      font-size: 16px;
+      color: #f6911a;
+      cursor: pointer;
+    }
+  }
+  .programName {
+    .btn-info:active{
+      background-color: #4e8bd6;
+      border: 0;
+    }
+    .btn:active, .btn.active{
+      box-shadow: 0 0 0 #4e8bd6;
+    }
+    padding-left: 5px;
+    .inputArea{
+      height: 38px;
+      margin-right: 20px;
+      float: left;
+      position: relative;
+      .w5c-error {
+        right: -345px;
+        top: 8px;
+        color: #eb607a;
+        position: absolute;
+      }
+    }
+    .form-control{
+      width: 230px;
+      float: left;
+    }
+    .saveBtn{
+      float: left;
+      .btnSubmit{
+        height: 24px;
+        width: 24px;
+        margin-right: 5px;
+        padding: 0;
+        background: #eceeef;
+        border: 0;
+        margin-top: 6px;
+        .done {
+          color: #5d88df;
+        }
+        .wrong{
+          color: #eb607a;
+        }
+      }
+      .btnSubmit1{
+        height: 24px;
+        width: 24px;
+        margin-right: 5px;
+        padding: 0;
+        background: #eceeef;
+        border: 0;
+        margin-top: 6px;
+        .done {
+          color: #5d88df;
+        }
+        .wrong{
+          color: #eb607a;
+        }
+      }
+    }
+    form {
+      .form-group {
+        padding-top: 0px;
+        label {
+          float: left;
+          font: 12px '微软雅黑';
+          color: #6d7290;
+          line-height: 33px;
+          margin-left: 10px;
+        }
+        .inputArea {
+          padding-left: 15px;
+          float: left;
+          width: 400px;
+          height: 33px;
+          .w5c-error {
+            left: 525px;
+            top: 15px;
+            color: #eb607a;
+            position: relative;
+          }
+          input{
+            width: 300px;
+          }
+          label{
+            margin-right: 10px;
+            margin-left: 10px;
+          }
+        }
+        .saveBtn {
+
+          button {
+            font-family: '微软雅黑';
+            margin-left: 20px;
+            width: 80px;
+            height: 34px;
+            background-color: #4e8bd6;
+            border: 0;
+            -webkit-border-radius: 5px 5px;
+            -moz-border-radius: 5px 5px;
+            border-radius: 5px 5px;
+            &:hover {
+              background-color: #467dc0;
+            }
+          }
+          span {
+            padding-left: 20px;
+            color: #eb6100;
+          }
+
+        }
+      }
+    }
+  }
+
+  //节目操作主界面
+  .proCtrlWrap {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 20px #d6d4d0;
+
+    .proLeft {
+      width: 22%;
+      .MaterialCtrl {
+        margin: 20px 0 0;
+        .searchGroup {
+          margin: 10px 30px;
+          input {
+            width: 100%;
+          }
+        }
+      }
+      .footBtnGroup {
+        width: 100%;
+        overflow: hidden;
+        .cancelChoose {
+          width: 55%;
+          height: 50px;
+          line-height: 50px;
+          float: left;
+          text-indent: 30px;
+          color: #f6911a;
+          cursor: pointer;
+          background-color: #fff3e4;
+        }
+        .importMedia {
+          width: 45%;
+          height: 50px;
+          line-height: 50px;
+          float: right;
+          text-align: center;
+          color: #fff;
+          cursor: pointer;
+          background-color: #f6911a;
+        }
+      }
+      border-right: 1px solid #eaeff0;
+    }
+    .proRight {
+      width: 78%;
+      padding:30px;
+      background-color: #fff;
+      .programTable {
+        //padding: 10px 30px;
+        border-radius: 2px;
+        background-color: rgb(255, 255, 255);
+        //box-shadow: 0px 5px 18px 0px rgba(119, 97, 71, 0.21);
+        .table {
+          font: 12px @dff;
+          thead {
+            tr {
+              td {
+                text-align: center;
+                padding: 20px 15px;
+                border-bottom: 1px solid #eaeff0;
+              }
+              .theadCheckBox {
+                width: 50px;
+                border-bottom: 1px solid #eaeff0;
+              }
+              td:nth-child(1){
+                width: 5%;
+              }
+              td:nth-child(2){
+                width: 15%;
+              }
+              td:nth-child(3){
+                width: 30%;
+              }
+              td:nth-child(4){
+                width: 15%;
+              }
+              td:nth-child(5){
+                width: 25%;
+              }
+              td:nth-child(6){
+                width: 10%;
+              }
+            }
+          }
+          tbody {
+            .i-checks{
+              input:checked + i{
+                border-color: #f6911a;
+                background-color: #fff;
+                &:before{
+                  background-color: #f6911a;
+                }
+              }
+
+            }
+            tr {
+              transition: all  0.2s ease-in-out 0s;
+              .edit {
+                display: none;
+              }
+              td {
+                text-align: center;
+                vertical-align: baseline;
+                padding: 15px 15px;
+                .text{
+                  text-align: center;
+                  color: #28241f;
+                  border-radius: 2px;
+                  border: 1px solid #c4c8cc;
+                  width: 100px;
+                  &:focus{
+                    border: 1px solid #74b2fe;
+                    box-shadow:0 0 5px #74b2fe;
+                  }
+                }
+              }
+              .newCheckbox {
+                width: 0.5% !important;
+              }
+              td:nth-child(1){
+                width: 5%;
+              }
+              td:nth-child(2){
+                width: 15%;
+              }
+              td:nth-child(3){
+                width: 30%;
+              }
+              td:nth-child(4){
+                width: 15%;
+              }
+              td:nth-child(5){
+                width: 25%;
+              }
+              td:nth-child(6){
+                width: 10%;
+              }
+
+              .dirName {
+                width: 324px;
+                color: #28241f;
+                .icon-gougou {
+                  color: #6b92e2;
+                }
+                .icon-cuowu {
+                  color: #f0869a;
+                }
+              }
+              .tableDirName {
+                .dataName {
+                  display: block;
+                  //cursor: pointer;
+                  //&:hover {
+                  //  color: #00a8f3;
+                  //}
+                }
+                .typeIcon {
+                  vertical-align: middle;
+                  display: inline-block;
+                  width: 26px;
+                  height: 26px;
+                }
+              }
+              .tbodyCheckBox {
+                border-bottom: 1px solid #fff;
+              }
+              .operateBtn {
+                width: 120px;
+                a {
+                  i {
+                    font-size: 18px;
+                    color: #4095fe;
+                  }
+                }
+                .dropdown-toggle {
+                  box-shadow: none;
+                }
+                .dropdown-menu {
+                  top: 43px;
+                  left: -50px;
+                  min-width: 94px;
+                  box-shadow: 0px 0px 10px 0px rgba(119, 97, 71, 0.2);
+                  border: 0 none !important;
+                  border-radius: 0;
+                  .btn-group {
+                    perspective: 400px;
+                  }
+                  &:before {
+                    z-index: -1;
+                    content: '';
+                    width: 20px;
+                    height: 20px;
+                    background-color: #fff;
+                    position: absolute;
+                    top: -11px;
+                    right: 10px;
+                    transform: rotate(45deg);
+
+                    //border-left: 1px solid #c4c8cc;
+                  }
+                }
+                li {
+                  &:hover{
+                    transform:translateZ(-14px) scale(1);
+                  }
+
+                  a {
+                    position:relative;
+                    transform-style:preserve-3d;
+                    transition:0.2s;
+                    font-size: 13px;
+                    color: #889098;
+                    padding: 10px 26px;
+                    &:hover {
+                      transform:translateZ(14px) scale(1.1);
+                      background-color: #f6911a !important;
+                      color: #fff;
+                    }
+                  }
+                }
+              }
+            }
+
+            .dirInput {
+              width: 230px;
+              height: 20px;
+              border: 1px solid #74b2fe;
+            }
+
+
+            .selectedTr {
+              background-color: #fff3e4;
+              td {
+
+                border-bottom: 1px solid #fff;
+              }
+              .operateBtn {
+                i {
+                  //color: #fff;
+                }
+              }
+            }
+            .editTr {
+              .dataName {
+                display: none !important;
+              }
+              .edit {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+}
+.programTree {
+  //height: 300px;
+  //max-width: 250px;
+
+  // overflow-y: auto;
+  // overflow-x: auto;
+}

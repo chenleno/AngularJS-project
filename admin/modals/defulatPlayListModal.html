@@ -1,0 +1,145 @@
+<div id="defulatPlayListModal">
+    <div class="mainBox add_modal new_add_modal">
+        <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+              w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+        <div class="contant">
+            <p class="head">{{edit_bool == true ? '编辑' : '新建'}}素材</p>
+            <a href="javascript:;" class="cancel" ng-click="cancel()"><i class="icon iconfont icon-cuowu"></i></a>
+            <div class="item">
+                <label>点位类型： </label>
+                <span>{{pointName}}</span>
+            </div>
+            <div class="item">
+                <label>素材名称： </label>
+                <input type="text" ng-model="data.resouceName"  name='playListName' ng-pattern='/^[\u4E00-\u9FA5A-Za-z0-9_]+$/'
+                       required="" maxlength="16"/>
+            </div>
+            <div class="input-class">
+                <label>广告素材： </label>
+            </div>
+
+            <div class="contain" style="margin-top: 20px">
+                <span class="mainScreen" ng-hide="deviceType == 1 || deviceType == 4">左屏</span>
+                <div class="radio" ng-hide="deviceType == 1 || deviceType == 4 || deviceType == 3">
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.screenType' ng-click="changeType(1)"  value='2'>
+                        <i></i>
+                        全屏
+                    </label>
+                    <label class="i-checks" ng-hide="deviceType == 3">
+                        <input type="radio" ng-model='data.screenType' ng-click="changeType(2)"  value='1'>
+                        <i></i>
+                        分屏
+                    </label>
+                </div>
+                <span class="otherScreen" ng-hide="deviceType == 1 || deviceType == 4 || deviceType == 3">辅屏:</span>
+                <div class="screenDiv">
+                    <!--1+1+1屏幕1-->
+                    <div class="screen screen1 ">
+                        <p class="tip">
+                            屏幕比例 16：9
+                        </p>
+
+                        <div class="addBtn" ng-click="selectMedia(1,'video')">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择素材
+                        </div>
+                        <p class="explain">支持视频格式：2D+Z、MPEG、AVI、RM、ASF、WMV</p>
+
+                        <div class="mask" ng-show="screen1"></div>
+                        <div class="edit"  ng-show="screen1" ng-click="selectMedia(1 , 'video')">
+                            <!--<i class="iconfont icon-bianji"></i>-->
+                            <i class="iconfont icon-bianji"></i>
+                        </div>
+
+                        <div id="order-video" class="video">
+                            <div class="video-body">
+                                <video class="video-js vjs-big-play-centered video-jsPre video-jsPre1" controls preload="auto" width="550" height="310"
+                                       data-setup="{}" style="">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-hide="deviceType == 1 || deviceType == 4">
+
+                        <!--屏幕5-->
+                        <div class="screen screen5 " ng-show="data.screenType == 2" >
+                            <p class="tip">
+                                9 : 16
+                            </p>
+                            <div class="addBtn"  ng-click="selectMedia(5 , 'picture')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+                            <p class="explain">支持图片：jpg、gif</p>
+                            <img  ng-src="{{screen5Pic}}" ng-show="screen5" alt=""/>
+                            <div class="mask" ng-show="screen5"></div>
+                            <div class="edit" ng-show="screen5">
+                                <i class="iconfont icon-bianji"  ng-click="selectMedia(5 , 'picture')"></i>
+                            </div>
+                        </div>
+
+                        <div class="screenMin " ng-show="data.screenType == 1">
+                            <div class="screen screen2">
+                                <p class="tip">
+                                    9 : 16
+                                </p>
+                                <div class="addBtn"  ng-click="selectMedia(2,'picture')">
+                                    <i class="iconfont icon-shangchuan"></i>
+                                    选择素材
+                                </div>
+                                <!--<p class="explain">支持图片：jpg、gif</p>-->
+                                <img ng-src="{{screen2Pic}}" ng-show="screen2" alt=""/>
+                                <div class="mask" ng-show="screen2"></div>
+                                <div class="edit" ng-show="screen2">
+                                    <i class="iconfont icon-bianji"  ng-click="selectMedia(2 , 'picture')"></i>
+                                </div>
+                            </div>
+                            <div class="screen screen3">
+                                <p class="tip">
+                                    9 : 16
+                                </p>
+                                <div class="addBtn"  ng-click="selectMedia(3 , 'picture')">
+                                    <i class="iconfont icon-shangchuan"></i>
+                                    选择素材
+                                </div>
+                                <!--<p class="explain">支持图片：jpg、gif</p>-->
+                                <img  ng-src="{{screen3Pic}}" ng-show="screen3" alt=""/>
+                                <div class="mask" ng-show="screen3"></div>
+                                <div class="edit" ng-show="screen3">
+                                    <i class="iconfont icon-bianji"  ng-click="selectMedia(3 , 'picture')"></i>
+                                </div>
+                            </div>
+                            <div class="screen screen4">
+                                <p class="tip">
+                                    9 : 16
+                                </p>
+                                <div class="addBtn"   ng-click="selectMedia(4 , 'picture')">
+                                    <i class="iconfont icon-shangchuan"></i>
+                                    选择素材
+                                </div>
+                                <!--<p class="explain">支持图片：jpg、gif</p>-->
+                                <img  ng-src="{{screen4Pic}}" ng-show="screen4" alt=""/>
+                                <div class="mask" ng-show="screen4"></div>
+                                <div class="edit" ng-show="screen4">
+                                    <i class="iconfont icon-bianji"  ng-click="selectMedia(4 , 'picture')"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <a href="javascript:;" class="allDel" ng-click="allDel()">全部删除</a>
+                    </div>
+                </div>
+            </div>
+            <div id="buttonType">
+
+                <button type=" button" class=" btn mediaBtn hover" w5c-form-submit='submit()'>
+                    提交
+                </button>
+
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

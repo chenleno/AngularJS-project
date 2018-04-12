@@ -1,0 +1,28 @@
+<div class="member" id='memberModel'>
+    <form name='form'>
+        <div class="input-class">
+            <label>邮箱： </label><input type="text" ng-model="data.email" placeholder="{{memberDetail.email}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>姓名： </label><input type="text" ng-model="data.userName" placeholder="{{memberDetail.userName}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>权限： </label><input type="text" ng-model="data.roleName" placeholder="{{memberDetail.roleName}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>部门： </label><input type="text" ng-model="data.departName" placeholder="{{memberDetail.departName}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>职位： </label><input type="text" ng-model="data.positionId" placeholder="{{memberDetail.roleName}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>手机： </label><input type="text" ng-model="data.mobile" placeholder="{{memberDetail.mobile}}" readonly/>
+        </div>
+        <div class="input-class">
+            <label>创建时间： </label><input type="text" ng-model="data.createTime" placeholder="{{memberDetail.createTime}}" readonly/>
+        </div>
+        <div class="button-bottom">
+            <a class="cancel" ng-click="cancel()">关闭</a>
+        </div>
+    </form>
+</div>

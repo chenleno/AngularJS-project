@@ -1,0 +1,335 @@
+<div id="addAdOrder1" class='addAdOrder3' ng-controller="addAdOrder3Ctrl">
+    <!--<div class="tabs fl">-->
+        <!--<a class="returnButton" ng-click="returnBack()">返回上一级</a>-->
+    <!--</div>-->
+
+    <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+          w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+        <div class=" btn-group fr" role="group" aria-label="...">
+
+            <!--<a class='backStep' ng-click='commitInfo("draft")' ng-show="showButton"><i class='iconfont icon-baocun'></i>&nbsp;&nbsp;存为草稿</a>
+            <a class='backStep' ng-click='backStep()'><i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步</a>
+
+            <button type=" button" class=" btn mediaBtn uploadMedia hover" ng-disabled='' w5c-form-submit='submit()'>
+                <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;提交
+            </button>-->
+
+        </div>
+    </div>
+
+    <div class="mainBox" >
+
+        <div class="titleNav">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                选择点位
+            </div>
+            <div class="halfCircle showColor"></div>
+            <div class="colorLine1"></div>
+        </div>
+        <div class="titleNav addMedia">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">2</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                添加素材
+            </div>
+            <div class="halfCircle showColor"></div>
+            <div id="colorLine2"></div>
+        </div>
+        <div class="titleNav setPlay" style="z-index: 210">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                设置播放方式
+            </div>
+            <div class="halfCircle showColor"></div>
+
+        </div>
+        <div id="colorLine3"></div>
+
+        <div class="contant add_modal step3Content" ng-if="gameOrVideo == 1">
+
+            <div class="input-class">
+                <label>播放时长： </label>
+                <p class='inputText' style='display: inline-block;' ng-model='data.fileDuration'>{{data.fileDuration | getParseInt}}</p>
+            </div>
+
+            <div class="input-class">
+                <label>投放日期： </label>
+                <div class="setDate">
+                    <div class="taskTime fl">
+                        <div class=" dateFromCtrl">
+                            <div class="input-group">
+                                <input class="form-control dateCtrl"  ng-model="data.fromDate" datetimepicker  options="options"
+                                       name="date"   placeholder="起始日期" />
+                                            <span class="input-group-addon">
+                                                <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="taskLine fl">
+                        <div class="arroLine"></div>
+                    </div>
+
+                    <div class="taskTime fr">
+                        <div class="dateFromCtrl">
+                            <div class="input-group" >
+                                <input class="form-control dateCtrl" datetimepicker ng-model="data.endDate" options="options"
+                                       name="endDate"   placeholder="结束日期" />
+                                            <span class="input-group-addon" datepicker-style>
+                                                 <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="input-class" style="display:none;">
+                <label>播放时段： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.timeLine'   value='1'>
+                        <i></i>
+                        不限
+                    </label>
+                    <!--<label class="i-checks">-->
+                        <!--<input type="radio" ng-model='data.timeLine'   value='2' >-->
+                        <!--<i></i>-->
+                        <!--设置播放时段-->
+                    <!--</label>-->
+                </div>
+
+                <!--<div class="timeSlot" ng-if='data.timeLine == "2"'>-->
+
+                    <!--<a class='addBtn' ng-click='addCondtion()'><i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;增加时段</a>-->
+
+                    <!--<div class="timeChose">-->
+
+                        <!--&lt;!&ndash;基础时段&ndash;&gt;-->
+                        <!--<div class="setDate setTime">-->
+                            <!--<div class="taskTime lineTime fl">-->
+                                <!--<div class=" dateFromCtrl">-->
+                                    <!--<div class="input-group">-->
+                                        <!--<input w5c-dynamic-element class="form-control dateCtrl timeLine input-group-addon" ng-model="data.fromTime" datetimepicker options="timeOption"-->
+                                                <!--required />-->
+                                            <!--<span class="input-group-addon">-->
+                                                <!--<span class="iconfont icon-select"></span>-->
+                                            <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="taskLine fl">-->
+                                <!--<div class="arroLine"></div>-->
+                            <!--</div>-->
+
+                            <!--<div class="taskTime lineTime fr">-->
+                                <!--<div class="dateFromCtrl">-->
+                                    <!--<div class="input-group" >-->
+                                        <!--<input w5c-dynamic-element class="form-control dateCtrl timeLine input-group-addon" datetimepicker ng-model="data.finishTime" options="timeOption"-->
+                                                <!--required />-->
+                                            <!--<span class="input-group-addon input-group-addon" datepicker-style>-->
+                                                 <!--<span class="iconfont icon-select"></span>-->
+                                            <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="extraCond" ng-repeat='cond in condArray track by $index'>-->
+
+                            <!--&lt;!&ndash;额外时段&ndash;&gt;-->
+                            <!--<div class="setDate setTime" extra-timeline ng-model='$parent.extra_condition[cond.id]' cond='cond.id'>-->
+
+                            <!--</div>-->
+
+                        <!--</div>-->
+
+
+                    <!--</div>-->
+
+                <!--</div>-->
+
+
+            </div>
+
+            <div class="input-class roundTime">
+                <label>每轮播放次数： </label>
+                <input  w5c-dynamic-element class='inputText smallInput' type="text" required=""  ng-model='data.showCountround' 
+                ng-pattern='/^[0-9]+([.]{1}[0-9]+){0,1}$/' name='roundCount'
+                  ng-change="changeShowCountround('countRound',data.showCountround)"/>次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #889098'>（0~9次）</span>
+                <i class="icon-question" ng-mouseover="hover = true" ng-mouseleave="hover = false"></i>
+                    <div ng-show="hover" class="hoverTips">
+                        <div class="tipsTitle">每轮播放次数</div>
+                        <div class="tipsContent">
+                            点位每天共播放120轮（6分钟一轮）</br>
+                            每天播放总次数=120 x 每轮播放次数 </br></br>
+                            每轮播放次数 = 1，表示每次轮播，播放1次 </br>
+                            每轮播放次数 = 2，表示每次轮播，播放2次 </br>
+                            每轮播放次数 = 0.1，表示每10轮，播放1次 </br>
+
+                        </div>
+                    </div>  
+            </div>
+
+            <div class="input-class dayTime">
+                <label>每日播放次数： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.playTimes'   value='1'>
+                        <i></i>
+                        不限
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.playTimes'   value='2' >
+                        <i></i>
+                        播放次数
+                    </label>
+                    <div style='display: inline-block;' ng-if='data.playTimes == "2"'>
+                        <input w5c-dynamic-element class='inputText smallInput' ng-maxlength='3' maxlength="3" ng-pattern='/^[0-9]\d*$/' name='dayCount'
+                               type="text" required="" ng-model='data.showCountday' ng-change="changeShowCountround('countDay',data.showCountday)"/>次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #889098'>（1~999次）</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="input-class dayTime">
+                <label>按时段加播： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.addPlay'   value='1'>
+                        <i></i>
+                        不加播
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.addPlay'   value='2' >
+                        <i></i>
+                        加播时段
+                    </label>
+                    <div style='display: inline-block;' ng-if='data.addPlay == "2"'>
+                        每轮加播次数：<input w5c-dynamic-element class='inputText smallInput' ng-maxlength='4' maxlength="4" ng-pattern='/^[1-9]\d*$/' name='addPlayTime' 
+                               type="text" required="" ng-model='data.addPlayTime'/>次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #889098'>（1~9999次）</span>
+                    </div>
+                </div>
+                        <div class="timeBox" ng-if='data.addPlay == "2"'>
+                            <label class="i-checks m-b-none multiple_check allTimeCheck" style="margin-left:30px;">
+                                <input type="checkbox" id="selectAll" ng-click="selectAllTime()" ng-checked='selectedAll()' class="ng-valid ng-dirty ng-valid-parse ng-touched"><i></i>
+                                全选
+                            </label>
+                            <div class="inlineBox">
+                                <span class="timeShow" ng-repeat="data in times" id="{{data.timerangeid}}">
+                                    <label class="i-checks m-b-none multiple_check allTimeCheck" style="padding-left:0;">
+                                        <input type="checkbox" id="selectAll"  ng-checked='selectedChecked({{data.timerangeid}})' ng-click="operateTimeArr({{data.timerangeid}})" class="ng-valid ng-dirty ng-valid-parse ng-touched"><i></i>
+                                        {{data.timerange}}
+                                    </label>
+                                </span>
+                            </div>
+                        </div>  
+                <!--<div class=''></div>-->
+
+            </div>
+          <div id="buttonType" class="buttonStep3">
+
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='commitInfo("draft")' ng-show="showButton"><i class='iconfont icon-baocun'></i>&nbsp;&nbsp;存为草稿</button>
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='backStep()'><i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步</button>
+
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover" ng-disabled='' w5c-form-submit='submit()'>
+                        <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;提交
+                    </button>
+
+        </div> 
+        </div>
+        <div class="contant add_modal step3Content" ng-if="gameOrVideo == 2">
+            
+            <div class="input-class">
+                <label>投放日期： </label>
+                <div class="setDate">
+                    <div class="taskTime fl">
+                        <div class=" dateFromCtrl">
+                            <div class="input-group">
+                                <input class="form-control dateCtrl"  ng-model="data.fromDate" datetimepicker  options="options"
+                                       name="date" required  placeholder="起始日期" />
+                                            <span class="input-group-addon">
+                                                <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="taskLine fl">
+                        <div class="arroLine"></div>
+                    </div>
+
+                    <div class="taskTime fr">
+                        <div class="dateFromCtrl">
+                            <div class="input-group" >
+                                <input class="form-control dateCtrl" datetimepicker ng-model="data.endDate" options="options"
+                                       name="endDate" required  placeholder="结束日期" />
+                                            <span class="input-group-addon" datepicker-style>
+                                                 <span class="iconfont icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label style="float:left;">设置启动时段：</label>
+                        <div class="timeBox" style="float:left;width:780px;">
+                            <label class="i-checks m-b-none multiple_check allTimeCheck">
+                                <input type="checkbox" id="selectAll" ng-click="selectAllTime()" ng-checked='selectedAll()' class="ng-valid ng-dirty ng-valid-parse ng-touched"><i></i>
+                                全选
+                            </label>
+                            <div class="inlineBox">
+                                <span class="timeShow" ng-repeat="data in times" id="{{data.timerangeid}}">
+                                    <label class="i-checks m-b-none multiple_check allTimeCheck">
+                                        <input type="checkbox" id="selectAll"  ng-checked='selectedChecked({{data.timerangeid}})' ng-click="operateTimeArr({{data.timerangeid}})" class="ng-valid ng-dirty ng-valid-parse ng-touched"><i></i>
+                                        {{data.timerange}}
+                                    </label>
+                                </span>
+                            </div>
+                        </div>  
+            </div>
+
+
+          <div id="buttonType" class="buttonStep3">
+
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='commitInfo("draft")' ng-show="showButton"><i class='iconfont icon-baocun'></i>&nbsp;&nbsp;存为草稿</button>
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='backStep()'><i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步</button>
+
+                    <button type=" button" class=" btn mediaBtn uploadMedia hover" ng-disabled='' w5c-form-submit='submit()'>
+                        <i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;提交
+                    </button>
+
+        </div> 
+
+        </div> 
+
+    </div>
+
+        </form>
+
+</div>

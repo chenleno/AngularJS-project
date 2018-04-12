@@ -1,0 +1,163 @@
+<div class="point" class='clearfix' ng-controller='addPTlistCtrl'>
+
+    <div class="tabs fl">
+        <div class="tabBtn" ui-sref="app.PT.PTlist"><i class="iconfont icon-dianwei"></i>点位列表</div>
+        <div class="tabBtn listMedia" ui-sref="app.PT.addPTlist"><i class="iconfont icon-552cc594d8cc0"></i>添加点位<s  class='countNum' ng-if='tipNum != 0'>{{tipNum}}</s></div>
+    </div>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)'></i>
+            <input ng-keyup='search(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize, $event)' type="text" placeholder='搜索点位名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl cityTitle title">
+                位置：
+            </div>
+            <div class="fl deviceCity selectSquare">
+                <label class='chooseCity' >
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected" ng-options="s.province for s in cityList"
+                            ng-change="c(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)">
+                        <option value="">请选择省份</option>
+                    </select>
+                </label>
+                <!--<label class='chooseCity' ng-show="selected.child.length"-->
+                <label class='chooseCity'
+                >
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected2"
+                            ng-options="sh.city for sh in selected.cityList" ng-change="c2(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)">
+                        <option value="">请选择市区</option>
+                    </select>
+                </label>
+                <!--<label class='chooseCity' ng-show="selected2.child.length"-->
+                <label class='chooseCity'
+                >
+                    <select class=" input-sm form-control w-sm inline v-middle "
+                            ng-model="selected3" ng-options=" x for x in selected2.districtList"
+                            ng-change="c3(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)">
+                        <option value="">请选择区域</option>
+                    </select>
+                </label>
+
+            </div>
+
+            <div class="fl stateTitle title">
+                点位类型：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)' ng-model='type' ng-options='type.id as type.name for type in PTtype'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td>点位ID</td>
+                    <td>点位类型</td>
+                    <td>点位名称</td>
+                    <td>屏幕数量</td>
+                    <td>添加时间</td>
+                    <td>设置主屏/副屏</td>
+                    <td>操作</td>
+
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish >
+
+                        <td>
+                            {{data.groupNewId}}
+                        </td>
+                        <td>{{data.groupType | getPTtype}}</td>
+                        <td style='cursor:pointer;' ng-click='PTdetail(data.pointId , false)'>{{data.groupName}}</td>
+                        <td>{{data.screenCount}}</td>
+                        <td>{{data.lastActivateTime}}</td>
+                        <td>{{data.isSetMainAndViceScreen | getScreenType}}</td>
+                        <td ng-if='onlyShowState'>待审核</td>
+                        <td ng-if='!onlyShowState' class="operateBtn ">
+
+                            <a href="javascript:;" title='点位详情' ui-sref="app.PT.addPTterminal({id:data.groupId})">
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-chakan'></i></a>
+                            <a ng-if='data.isReadyToAdd == true ' href="javascript:;" title='添加点位' ng-click='examine(data.groupId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-552cc594d8cc0'></i></a>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有点位</p>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(selected.province,selected2.city,selected3,keyword,type, currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

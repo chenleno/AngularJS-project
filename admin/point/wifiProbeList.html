@@ -1,0 +1,99 @@
+<div class="point" class='clearfix' ng-controller='wifiProbeList' id='playListCtrl'>
+
+    <div class="playListHead">
+        <a class="return" ng-click="return()">返回上一级&nbsp;&nbsp;</a>
+        <p class="headName">{{name}}</p>
+
+        <div class=" dateFromCtrl">
+            <div class="input-group">
+                <input class="form-control"  ng-model="fromDate" datetimepicker id="fromDate"  options="option1"
+                       name="date" required placeholder="日期"  ng-change='search( fromDate )'/>
+                                            <span class="input-group-addon">
+                                                <span class="iconfont  icon-rili"></span>
+                                            </span>
+            </div>
+        </div>
+    </div>
+    <!--listTable-->
+
+    <div  class="deviceListCtrl" >
+
+        <div class="wifiTitle"></div>
+        <div class="deviceTable">
+            <div id="warnAll" class="activeAllLine" style="width: 100%;height: 400px">
+
+            </div>
+            <div class="wifiInfoHead">
+                <p>详细数据</p>
+
+                <a ng-click="downLoad(pointId,1)" href="javascript:;" class="exportData">导出最近一个月</a>
+                <a ng-click="downLoad(pointId,1)" href="javascript:;" class="exportData">导出最近一年</a>
+            </div>
+            <table class="table" style="margin-bottom: 0px;border-top: 1px solid #eaeff0">
+                <thead>
+                <tr>
+                    <td>日期</td>
+                    <td>星期</td>
+                    <td>总人数</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" scroll-height="scroll 530">
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas' >
+
+                        <td>{{data.date}}</td>
+                        <td>{{data.dayOfWeek}}</td>
+                        <td>{{data.count}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有播放列表</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(pointId , yesterday , currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

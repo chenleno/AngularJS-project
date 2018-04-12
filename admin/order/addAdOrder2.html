@@ -1,0 +1,421 @@
+<div id="addAdOrder2" ng-controller="addAdOrder2Ctrl">
+    <!--<div class="tabs fl">-->
+        <!--<a class="returnButton" ng-click="returnBack()">返回上一级</a>-->
+    <!--</div>-->
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+        <!--<div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia hover" ng-click='nextStep()'>
+                <i class='iconfont icon-jiantou1'></i>&nbsp;&nbsp;下一步
+            </button>
+        </div>
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia hover" ng-click='returnBack()'>
+                <i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步
+            </button>
+        </div>-->
+    </div>
+
+    <div class="mainBox">
+
+        <div class="titleNav">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                选择点位
+            </div>
+            <div class="halfCircle showColor"></div>
+            <div class="colorLine1"></div>
+        </div>
+        <div class="titleNav addMedia" style="width: 100%">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">2</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                添加素材
+            </div>
+            <div class="halfCircle showColor"></div>
+            <div id="colorLine2"></div>
+        </div>
+        <div class="titleNav setPlay">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 bg01">
+                        <div class="step">3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect">
+                设置播放方式
+            </div>
+            <div class="halfCircle"></div>
+        </div>
+        <div class="contant add_modal">
+
+            <div class="input-class">
+                <label>广告素材： </label>
+                <!--<input class='inputText' type="text" required="" value="data.adName" ng-model="data.adName"-->
+                        <!--/>-->
+            </div>
+
+            <div class="contain" ng-if="deviceType != 5">
+                <span class="mainScreen">主屏</span>
+                <div class="radio" ng-hide="deviceType == 1 || deviceType == 4 || deviceType == 3">
+                    <label class="i-checks" >
+                        <input type="radio" ng-model='data.screenType' ng-click="changeType(1)"  value='2'>
+                        <i></i>
+                        全屏
+                    </label>
+                    <label class="i-checks" ng-hide="deviceType == 3">
+                        <input type="radio" ng-model='data.screenType' ng-click="changeType(2)"  value='1'>
+                        <i></i>
+                        分屏
+                    </label>
+                </div>
+                <span class="otherScreen" ng-hide="deviceType == 1 || deviceType == 4 || deviceType == 3">辅屏:</span>
+                <div class="screenDiv">
+                    <!--1+1+1屏幕1-->
+                    <div class="screen screen1 ">
+                        <p class="tip">
+                            屏幕比例 16：9
+                        </p>
+
+                        <div class="addBtn" ng-click="selectMedia(1,'video')" ng-if="gameOrVideo">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择素材
+                        </div>
+
+                        <div class="addBtn" ng-click="selectMedia(1,'game')" ng-if="!gameOrVideo">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择游戏
+                        </div>
+
+                        
+
+                        <p class="explain" ng-if="gameOrVideo">支持视频格式：2D+Z、MPEG、AVI、RM、ASF、WMV</p>
+                        <p class="explain" ng-if="!gameOrVideo">支持文件：zip、exe</p>
+                        <div class="mask" ng-show="screen1"></div>
+                        <div class="edit"  ng-show="screen1" ng-click="selectMedia(1 , 'video')"  ng-if="gameOrVideo">
+                            <!--<i class="iconfont icon-bianji"></i>-->
+                            <i class="iconfont icon-bianji"></i>
+                        </div>
+
+                        <div class="edit"  ng-show="screen1" ng-click="selectMedia(1 , 'game')" ng-if="!gameOrVideo">
+                            <!--<i class="iconfont icon-bianji"></i>-->
+                            <i class="iconfont icon-bianji"></i>
+                        </div>
+
+                        <div id="order-video" class="video">
+                            <div class="video-body">
+                                <video class="video-js vjs-big-play-centered video-jsPre video-jsPre1" controls preload="auto" width="700" height="390"
+                                       data-setup="{}" style="" ng-hide="gameType">
+                                    <!--<source src="2.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                    <!--<p class="vjs-no-js">-->
+                                    <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                    <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                    <!--</p>-->
+                                </video>
+                            </div>
+                        </div>
+                        <div id="game" class="game" ng-if="gameType">
+                            <span></span>
+                            <img ng-src="{{screen1Pic}}" ng-show="screen1" alt=""/>
+                            <p>{{gameName}}</p>
+                            <!--<p>gameNameqqqqqqqqqqqqqqqq.zip</p>-->
+                        </div>
+                    </div>
+
+                    <!--<div class="screen screen5 " ng-show="data.screenType == 0">
+                        <p class="tip">
+                            9 : 16
+                        </p>
+                        <div class="addBtn"  ng-click="selectMedia(5 , 'picture')">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择素材
+                        </div>
+                        <p class="explain">支持图片：jpg、gif</p>
+                        <img  ng-src="{{screen5Pic}}" ng-show="screen5" alt=""/>
+                        <div class="mask" ng-show="screen5"></div>
+                        <div class="edit" ng-show="screen5">
+                            <i class="iconfont icon-fangda" ng-click="openPlay(screen5Pic)"></i>
+                            <i class="iconfont icon-bianji"  ng-click="selectMedia(5 , 'picture')"></i>
+                        </div>
+                    </div>-->
+                <div ng-hide="deviceType == 1 || deviceType == 4">
+
+                    <!--屏幕5-->
+                    <div class="screen screen5 " ng-show="data.screenType == 2" >
+                        <p class="tip">
+                            9 : 16
+                        </p>
+                        <div class="addBtn"  ng-click="selectMedia(5 , 'picture')">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择素材
+                        </div>
+                        <p class="explain">支持图片：jpg、gif</p>
+                        <img  ng-src="{{screen5Pic}}" ng-show="screen5" alt=""/>
+                        <div class="mask" ng-show="screen5"></div>
+                        <div class="edit" ng-show="screen5">
+                            <i class="iconfont icon-fangda" ng-click="openPlay(screen5Pic)"></i>
+                            <i class="iconfont icon-bianji"  ng-click="selectMedia(5 , 'picture')"></i>
+                        </div>
+                    </div>
+
+                    <div class="screenMin " ng-show="data.screenType == 1"> 
+                        <div class="screen screen2">
+                            <p class="tip">
+                                9 : 16
+                            </p>
+                            <div class="addBtn"  ng-click="selectMedia(2,'picture')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+                            <p class="explain">支持图片：jpg、gif</p>
+                            <img ng-src="{{screen2Pic}}" ng-show="screen2" alt=""/>
+                            <div class="mask" ng-show="screen2"></div>
+                            <div class="edit" ng-show="screen2">
+                                <i class="iconfont icon-fangda"  ng-click="openPlay(screen2Pic)"></i>
+                                <i class="iconfont icon-bianji"  ng-click="selectMedia(2 , 'picture')"></i>
+                            </div>
+                        </div>
+                        <div class="screen screen3">
+                            <p class="tip">
+                                9 : 16
+                            </p>
+                            <div class="addBtn"  ng-click="selectMedia(3 , 'picture')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+                            <p class="explain">支持图片：jpg、gif</p>
+                            <img  ng-src="{{screen3Pic}}" ng-show="screen3" alt=""/>
+                            <div class="mask" ng-show="screen3"></div>
+                            <div class="edit" ng-show="screen3">
+                                <i class="iconfont icon-fangda"  ng-click="openPlay(screen3Pic)"></i>
+                                <i class="iconfont icon-bianji"  ng-click="selectMedia(3 , 'picture')"></i>
+                            </div>
+                        </div>
+                        <div class="screen screen4">
+                            <p class="tip">
+                                9 : 16
+                            </p>
+                            <div class="addBtn"   ng-click="selectMedia(4 , 'picture')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+                            <p class="explain">支持图片：jpg、gif</p>
+                            <img  ng-src="{{screen4Pic}}" ng-show="screen4" alt=""/>
+                            <div class="mask" ng-show="screen4"></div>
+                            <div class="edit" ng-show="screen4">
+                                <i class="iconfont icon-fangda"  ng-click="openPlay(screen4Pic)"></i>
+                                <i class="iconfont icon-bianji"  ng-click="selectMedia(4 , 'picture')"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="javascript:;" class="allDel" ng-click="allDel()">全部删除</a>
+                </div>
+                <a href="javascript:;" style="position:absolute;bottom:0;" class="allDel" ng-click="allDel()" ng-hide="deviceType == 2 || deviceType == 3">全部删除</a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+            <!--1+1+1扩展-->
+            <div class="contain" ng-if="deviceType == 5" ng-controller="newScreenCtrl" style="width: 1063px">
+                <span class="mainScreen">左屏</span>
+                <!--视频-->
+                <div class="radio" ng-if="gameOrVideo">
+                    <label class="i-checks">
+                        <input type="radio" name="screenType" ng-model='data.screenType' ng-click="changeScreenType(1)"  value='1'>
+                        <i></i>
+                        和左屏同步
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" name="screenType" ng-model='data.screenType' ng-click="changeScreenType(2)"  value='2'>
+                        <i></i>
+                        和左屏不同步
+                    </label>
+                </div>
+                <!--游戏-->
+                <div class="radio" ng-if="!gameOrVideo">
+                    <label class="i-checks">
+                        <input type="radio" name="screenType" ng-model='data.screenType' ng-click="changeScreenType(1)"  value='1'>
+                        <i></i>
+                        不设置
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" name="screenType" ng-model='data.screenType' ng-click="changeScreenType(2)"  value='2'>
+                        <i></i>
+                        播放相关视频
+                    </label>
+                </div>
+                <span class="otherScreen">右屏:</span>
+                <div class="screenDiv" style="height: 293px">
+                    <!--屏幕1-->
+                    <div class="screen screen1 newScreen">
+                        <p class="tip">
+                            屏幕比例 16：9
+                        </p>
+                        <div class="addBtn" ng-click="selectMedia(1,'video')" ng-if="gameOrVideo">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择素材
+                        </div>
+
+                        <div class="addBtn" ng-click="selectMedia(1,'game')" ng-if="!gameOrVideo">
+                            <i class="iconfont icon-shangchuan"></i>
+                            选择游戏
+                        </div>
+
+
+
+                        <p class="explain" ng-if="gameOrVideo">支持视频格式：2D+Z、MPEG、AVI、RM、ASF、WMV</p>
+                        <p class="explain" ng-if="!gameOrVideo">支持文件：zip、exe</p>
+                        <div class="mask" ng-show="screen1"></div>
+                        <div class="edit"  ng-show="screen1" ng-click="selectMedia(1 , 'video')"  ng-if="gameOrVideo">
+                            <!--<i class="iconfont icon-bianji"></i>-->
+                            <i class="iconfont icon-bianji"></i>
+                        </div>
+
+                        <div class="edit"  ng-show="screen1" ng-click="selectMedia(1 , 'game')" ng-if="!gameOrVideo">
+                            <!--<i class="iconfont icon-bianji"></i>-->
+                            <i class="iconfont icon-bianji"></i>
+                        </div>
+
+                        <div id="order-video" class="video order-video1">
+                            <div class="video-body">
+                                <video class="video-js vjs-big-play-centered video-jsPre video-jsPre2" controls preload="auto" width="455" height="256"
+                                       data-setup="{}" style="" ng-hide="gameType">
+                                    <!--<source src="2.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                    <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                    <!--<p class="vjs-no-js">-->
+                                    <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                    <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                    <!--</p>-->
+                                </video>
+                            </div>
+                        </div>
+                        <div id="game" class="game" ng-if="gameType">
+                            <span></span>
+                            <img ng-src="{{screen1Pic}}" ng-show="screen1" alt=""/>
+                            <p>{{gameName}}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!--屏幕5-->
+                        <div class="screen screen5 newScreen1">
+                            <p class="tip">
+                                9 : 16
+                            </p>
+                            <div class="addBtn"  ng-click="selectMedia(5 , 'picture')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+                            <p class="explain">支持图片：jpg、gif</p>
+                            <img  ng-src="{{screen5Pic}}" ng-show="screen5" alt=""/>
+                            <div class="mask" ng-show="screen5"></div>
+                            <div class="edit" ng-show="screen5">
+                                <i class="iconfont icon-fangda" ng-click="openPlay(screen5Pic)"></i>
+                                <i class="iconfont icon-bianji"  ng-click="selectMedia(5 , 'picture')"></i>
+                            </div>
+                        </div>
+                        <!--右侧屏幕-->
+                        <div class="screen screen1 newScreen">
+                            <p class="tip">
+                                屏幕比例 16：9
+                            </p>
+
+                            <div class="prompt"  ng-show="screenType == 1">
+                                <p>此屏幕将轮播视频广告</p>
+                            </div>
+
+
+                            <div class="addBtn" ng-click="selectMedia(3,'video')">
+                                <i class="iconfont icon-shangchuan"></i>
+                                选择素材
+                            </div>
+
+                            <p class="explain">支持视频格式：2D+Z、MPEG、AVI、RM、ASF、WMV</p>
+                            <div class="mask" ng-show="screen7"></div>
+                            <div class="edit"  ng-show="screen7" ng-click="selectMedia(3 , 'video')" >
+                                <!--<i class="iconfont icon-bianji"></i>-->
+                                <i class="iconfont icon-bianji"></i>
+                            </div>
+
+                            <div id="order-video" class="video order-video2">
+                                <div class="video-body">
+                                    <video class="video-js vjs-big-play-centered video-jsPre video-jsPre3" controls preload="auto" width="455" height="256"
+                                           data-setup="{}" style="">
+                                        <!--<source src="2.mp4" type='video/mp4'>-->
+                                        <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                                        <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                                        <!--<p class="vjs-no-js">-->
+                                        <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                                        <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                                        <!--</p>-->
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="javascript:;" class="allDel" ng-click="allDel()">全部删除</a>
+                    </div>
+                </div>
+                <div id="buttonType" ng-if="deviceType == 5">
+
+                    <button type=" button" class=" btn mediaBtn hover" ng-click='returnBack()'>
+                        <i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步
+                    </button>
+
+                    <button type=" button" class=" btn mediaBtn hover" ng-click='nextStep()'>
+                        <i class='iconfont icon-jiantou1'></i>&nbsp;&nbsp;下一步
+                    </button>
+
+                </div>
+            </div>
+            <!--//预览遮罩-->
+            <div class="modal-backdrop fade in" id="videoMask"></div>
+            <div id="preview" class="video">
+                <div class="video-body">
+                    <a href="javascript:;" class="closePlay" ng-click="closePlay()">
+                        <i class="iconfont  icon-cuowu"></i>
+                    </a>
+                    <div class="videoPic" >
+                        <img ng-src="{{openPlayImg}}" alt=""/>
+                    </div>
+                </div>
+            </div>
+            <div id="buttonType" ng-if="deviceType != 5">
+
+                    <button type=" button" class=" btn mediaBtn hover" ng-click='returnBack()'>
+                        <i class='iconfont icon-jiantou1-copy'></i>&nbsp;&nbsp;上一步
+                    </button>
+
+                    <button type=" button" class=" btn mediaBtn hover" ng-click='nextStep()'>
+                        <i class='iconfont icon-jiantou1'></i>&nbsp;&nbsp;下一步
+                    </button>
+
+            </div>
+        </div>
+    </div>
+</div>

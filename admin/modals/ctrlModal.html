@@ -1,0 +1,37 @@
+<div class="modalWrap">
+    <div class="delMsg">
+        
+        <p ng-show='modalType == "memberName"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除所选成员吗？</p>
+        <p ng-show='modalType == "deleteMediaType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除所选文件/文件夹吗？</p>
+        <p ng-show='modalType == "logOutType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认退出吗？</p>
+        <p ng-show='modalType == "findPwdType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;请联系管理员admin@kdxfilm.com</p>
+        <p ng-show='modalType == "reqErrorType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;未知的错误发生了，请稍后再试</p>
+        <p ng-show='modalType == "delRole"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认要删除所选项吗？</p>
+        <p ng-show='modalType == "noPerType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;抱歉，您没有使用该功能的权限，请联系管理员</p>
+        <p ng-show='modalType == "deleteProgramType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除所选节目吗？</p>
+        <p ng-show='modalType == "deleteDeviceType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除所选设备吗？</p>
+        <p ng-show='modalType == "addDeviceType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认添加所选设备吗？</p>
+        <p ng-show='modalType == "examineType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认{{obj.checkStatus | getExamine}}吗？</p>
+        <p ng-show='modalType == "projectType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除该项目吗？</p>
+        <p ng-show='modalType == "addPT"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认添加该点位吗？</p>
+        <p ng-show='modalType == "downOrder"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认下刊吗？</p>
+        <p ng-show='modalType == "releaseAd"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认下刊吗？</p>        
+        <p ng-show='modalType == "deleteAd"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认删除吗？</p>
+        <p ng-show='modalType == "waitCheckType"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;广告单已提交审核，请耐心等待</p>
+        <p ng-show='modalType == "copyAd"'><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;确认复制该广告单吗？</p>
+        <p ng-show='modalType == "videoCode"' style="margin-bottom: 5px;margin-top: 5px"><i class='iconfont icon-tishi'></i>&nbsp;&nbsp;右屏时长需要和左屏相同。</p>
+        <p ng-show='modalType == "videoCode"' style="margin-bottom: 5px;margin-top: 5px">&nbsp;&nbsp;左屏:{{obj.videoCode1}}s</p>
+        <p ng-show='modalType == "videoCode"' style="margin-bottom: 5px;margin-top: 5px">&nbsp;&nbsp;右屏:{{obj.videoCode2}}s</p>
+
+
+    </div>
+
+    <div class="modal-footer">
+        <button ng-hide='modalType == "waitCheckType"' class="btn  btnSubmit" ng-click="ok()">确定</button>
+        <button ng-show='modalType == "waitCheckType"' class="btn  btnSubmit" ng-click="ok()">查看广告单</button>
+
+        <a ng-hide='modalType == "noPerType" || modalType == "waitCheckType"' class="btn btnCancel" ng-click="cancel()">取消</a>
+        <a ng-show='modalType == "waitCheckType"' class="btn btnCancel" ng-click="goSheetList()">关闭</a>
+    </div>
+</div>
+

@@ -1,0 +1,78 @@
+<div class="point" class='clearfix' ng-controller='addPTterminalCtrl'>
+
+    <div class="tabs fl" style="margin-bottom: 30px">
+        <div class="tabBtn" ui-sref="app.PT.PTlist"><i class="iconfont icon-dianwei"></i>点位列表</div>
+        <div class="tabBtn listMedia" ui-sref="app.PT.addPTlist"><i class="iconfont icon-552cc594d8cc0"></i>添加点位<s  class='countNum'>{{tipNum}}</s></div>
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl clearfix" >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='  fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td>终端ID</td>
+                    <td>MAC地址</td>
+                    <td>终端名称</td>
+                    <td>位置</td>
+                    <td>状态</td>
+                    <td>主屏/副屏 <i title="重置按钮" class="iconfont icon-zhongshi color hand" ng-click="deleteScreenType()"></i></td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas' style="transition: all  0s ease-in-out 0s ">
+
+                        <td>
+                            {{data.deviceNewId}}
+                        </td>
+                        <td>{{data.deviceMac}}</td>
+                        <td>{{data.deviceName}}</td>
+                        <td>{{data.deviceProvince + data.deviceCity + data.deviceDistrict + data.detailAddress}}</td>
+                        <td ng-class="{true:'color',false:''}[data.isOnline == 'Y']">{{data.isOnline == 'Y' ? '在线' : '离线'}}</td>
+                        <td>{{data.deviceScreenType  == 1 ? '主屏' : data.deviceScreenType  > 0 ? '副屏' + (data.deviceScreenType - 1) : '-'}}</td>
+                        <td >
+                            <div class="btn-group" role="group">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    &nbsp;&nbsp;&nbsp;
+                                    <i class="iconfont icon-shezhi1 color"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!--ng-class="{true:'disabled',false:''}[mainScreen]"-->
+                                    <li class="addpoint-style">
+                                        <a ng-click="setScreen(data.deviceId,1)" ng-class="{true:'select',false:''}[data.deviceScreenType  == 1]"><i class='iconfont icon-gougou'></i>&nbsp;&nbsp;设为主屏
+                                        </a>
+                                    </li>
+                                    <li ng-repeat="item in otherScreen">
+                                        <a ng-click="setScreen(data.deviceId,$index+2)" ng-class="{true:'select',false:''}[data.deviceScreenType  == $index+2]"><i class='iconfont icon-gougou'></i>&nbsp;&nbsp;{{'设为副屏'+($index+1)}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有终端</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

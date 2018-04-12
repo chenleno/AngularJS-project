@@ -1,0 +1,288 @@
+<div id="mediaList" class="clearfix" ng-controller='mediaCtrl' nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+    <div class="crumbsNav " ng-if="dirPath != ''">
+        <div class="crumbs clearfix">
+            <div  class="crumbGroup">
+                <!--<a ng-click="query('')">全部文件</a>
+
+                <i>&nbsp;&nbsp;|&nbsp;&nbsp;</i>-->
+
+                <a ng-click="backSearch(dirPath)">返回上一级</a>
+
+                <i class='iconfont icon-xiayige'>&nbsp;&nbsp;</i>
+
+                <span>{{currentPath | getCurrentPath}}</span>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="tabs fl" ng-if="dirPath == ''">
+        <div class="tabBtn leftListMedia" ui-sref="app.media.mediaList"><i class="iconfont icon-bendishangchuan"></i>素材列表</div>
+        <div class="tabBtn " ui-sref="app.media.checkMedia"><i class="iconfont icon-shenhe2"></i>素材审核<s class='countNum' ng-if='toCheckNumber != 0'>{{toCheckNumber}}</s></div>
+    </div>
+
+    <!--button-group-->
+    <div class="mediaCtrlGroup clearfix">
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn uploadMedia" ng-click="clickUp()"><i class='iconfont icon-shangchuan'></i>&nbsp;&nbsp;上传文件</button>
+            <button create-focus type=" button" class=" btn mediaBtn createDirBtn"
+            ><i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;新建文件夹</button>
+
+            <div class=" btn-group" role="group" style="vertical-align: inherit;">
+                <button type="button" class="mediaBtn btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    ...
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a ng-click='delete(mediaSelectedArr , keyword)'><i class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除</a></li>
+                    <!--<li><a href="#"><i class='iconfont icon-iconxiazai1'></i>&nbsp;&nbsp;下载</a></li>-->
+
+                    <li><a ng-click="removeFiles(mediaSelectedArr)"><i class='iconfont icon-yidong'></i>&nbsp;&nbsp;移动到</a></li>
+                    <li><a ng-click="copyFiles(mediaSelectedArr)"><i class='iconfont icon-fuzhi'></i>&nbsp;&nbsp;复制到</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo'></i>
+            <input ng-keyup='search(data.name , data.dir , keyword , dirPath , currentPage , pageSize , $event)' type="text" placeholder='搜索素材名称' ng-model='keyword' maxlength="30">
+        </div>
+
+        <!--<div class="fr selectGroup">-->
+            <!--<div class="fl stateTitle title">-->
+                <!--审核状态：-->
+            <!--</div>-->
+            <!--<div class="fl deviceState selectSquare">-->
+                <!--<select class=" input-sm form-control w-sm inline v-middle " ng-change='query( dirPath ,keyword , state)' ng-model='state' ng-options='state.id as state.name for state in stateGroup'>-->
+                    <!--&lt;!&ndash;<option value=''>全部</option>&ndash;&gt;-->
+                <!--</select>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+
+
+    <input type="file" nv-file-select="" uploader="uploader" multiple  id="uploadBtn" ng-show="false"/>
+
+    <!--listTable-->
+
+    <div class="mediaListCtrl" >
+
+        <div class="mediaTable" id='mediaListCtrl' body-height="mediaListCtrl 230">
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td class='theadCheckBox' id="td1">
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox"
+                                   ng-click="selectAll(mediaSelectedArr , $event , mediaList , 'fullName')"
+                                   ng-checked='isSelectedAll(mediaSelectedArr ,mediaList)'><i></i>
+                        </label>
+                    </td>
+                    <td id="td2">文件名</td>
+    
+                    <td id="td3">容量（MB）</td>
+                    <td id="td4">修改时间</td>
+                    <!--<td>审核</td>-->
+                    <td id="td5">文件目录</td>    
+                    <td id="td6">操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+                    <!--新建文件夹新增行-->
+                    <tr class='addDirTr' ng-init='addDirBool = false' ng-show='addDirBool'>
+                        <td class='tbodyCheckBox newCheckbox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.name}}' ng-disabled='true'><i></i>
+
+                            </label>
+                        </td>
+                        <td colspan="4" class='tal dirName '>
+                            <input class='dirInput createInput' type="text" ng-init='dirName = "新建文件夹"' ng-model='dirName'
+                            ng-keyup='doAddDir($event)'>&nbsp;&nbsp;
+                            <a ng-click='doAddDir()' title="保存"><i class='iconfont icon-gougou'></i>&nbsp;&nbsp;</a>
+                            <a ng-click='addDirBool = false' title="取消"><i class='iconfont icon-cuowu'></i>&nbsp;&nbsp;</a>
+                        </td>
+
+                    </tr>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish class='listTr'
+                        ng-class="{'selectedTr' : isSelected(mediaSelectedArr , data.fullName),'editTr' : editDirBool }">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.fullName }}' ng-disabled='addDirBool? true: false'
+                                       ng-model='data.checked' ng-checked='isSelected(mediaSelectedArr , data.fullName)'
+                                       ng-click="updateSelection(mediaSelectedArr , $event , data.fullName)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName' >
+                            <span title='{{data.name}}' class='dataName' ng-click="addDirBool? return : search(data.name , data.dir , keyword , data.fullName , currentPage , pageSize )">
+                                <i class='typeIcon' ng-class='data.format | formatIcon' ></i>&nbsp;&nbsp;
+                                {{data.name | limitLength}}
+                            </span>
+
+                            <form class="edit">
+                                <input class='dirInput' ng-model="data.newName"
+                                       ng-keyup='doRenameDir(data.newName ,  data.fullName  , data.dir  , keyword , $event)'>&nbsp;&nbsp;
+
+                                <a ng-click='doRenameDir(data.newName ,  data.fullName  , data.dir , keyword)'><i class='iconfont icon-gougou'></i>&nbsp;&nbsp;</a>
+
+                                <a ng-click='editDirBool = false'><i class='iconfont icon-cuowu'></i>&nbsp;&nbsp;</a>
+                            </form>
+                        </td>
+                        <td>{{data.size | sizeFormat}}</td>
+                        <td>{{data.updated}}</td>
+
+                        <!--&lt;!&ndash;没有审核权限时显示&ndash;&gt;-->
+                        <!--<td ng-show='onlyShowState'>{{data.checkStatus | getExamine}}</td>-->
+
+                        <!--&lt;!&ndash;拥有审核权限，且状态为待审核时显示&ndash;&gt;-->
+                        <!--<td ng-show='!onlyShowState'>-->
+                            <!--<span ng-show='data.checkStatus == 1 || data.checkStatus == 2'>已{{data.checkStatus | getExamine}}</span>-->
+                            <!--<a ng-show='data.checkStatus == 3' ng-click='examine(data.uid , 1)' class="successButton" href="">通过</a>-->
+                            <!--<span ng-show='data.checkStatus == 3' class='shuLine'></span>-->
+                            <!--<a ng-show='data.checkStatus == 3' ng-click='examine(data.uid , 2)' class="failButton">不通过</a>-->
+                        <!--</td>-->
+                        <td title="{{data.fullName}}">{{data.fullName | limitLength}}</td>
+                        <td class="operateBtn ">
+
+                            <a style='width: 32px; display: inline-flex; cursor:default;' href="javascript:;"   >
+                                <i style='cursor:pointer;' title='预览' ng-hide='data.format == null || data.format == "other" ' ng-click="openPlay(data.uid)" class='iconfont icon-chakan' ></i> &nbsp;&nbsp;&nbsp;</a>
+
+                            <a href="javascript:;" title='下载' ng-hide="data.format == null " ng-click="download(data.uid)">
+                                <i class='iconfont icon-iconxiazai1' ></i></a>
+
+                            <a href="javascript:;" title='删除'  ng-click='delete(data.fullName , keyword)'>
+                                 &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+                                <div class="btn-group" role="group" style="vertical-align: inherit">
+                                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        &nbsp;&nbsp;&nbsp;
+                                        <i class="iconfont  icon-gengduo"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                    <li><a ng-click="removeFiles(data.fullName)">移动到</a></li>
+                                    <li><a ng-click="copyFiles(data.fullName)">复制到</a></li>
+                                    <li><a rename-focus >重命名</a></li>
+
+                                    </ul>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p ng-hide='keyword'>您还没上传过素材哦，点击 <a ng-click="clickUp()">上传</a> 按钮~</p>
+                    <p ng-show='keyword'>空空如也...</p>
+                </div>
+
+                <!--<div class="myPagination clearfix">-->
+                    <!--<div class="jumpPage text-sm pageInfo">-->
+                        <!--&lt;!&ndash;(每页显示&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class=" pageSelect">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'&ndash;&gt;-->
+                        <!--&lt;!&ndash;ng-options='page.name as page.name for page in pageSizeList' >&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;条，&ndash;&gt;-->
+                        <!--当前第{{currentPage}}页 / 共{{numPages}}页-->
+                        <!--&lt;!&ndash;跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'&ndash;&gt;-->
+                        <!--&lt;!&ndash;onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"&ndash;&gt;-->
+                        <!--&lt;!&ndash;ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<pagination class="pagination-sm m-t-none m-b"-->
+
+                                <!--total-items="totalItems"-->
+                                <!--ng-model="currentPage"-->
+                                <!--force-ellipses="true"-->
+                                <!--boundary-links="true"-->
+                                <!--rotate="false"-->
+                                <!--num-pages="numPages"-->
+                                <!--max-size="maxSize"-->
+                                <!--items-per-page="pageSize"-->
+
+                                <!--ng-change="query('' ,  keyword , currentPage , pageSize)"-->
+                                <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+                    <!--</pagination>-->
+                <!--</div>-->
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(dirPath ,  keyword , currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+
+        <button class="btn upload-btn " id="uploadListBtn">
+            <i class="iconfont icon-jiantou1-copy"></i>
+        </button>
+    </div>
+
+    <div data-ng-include=" 'tpl/blocks/settings.html' " class="settings panel panel-default" ng-class="" id="upload">
+    </div>
+
+    <!--//播放器遮罩-->
+    <div class="modal-backdrop fade in" id="videoMask"></div>
+    <div id="video" class="video">
+        <div class="video-body">
+            <video id="my-video" class="video-js vjs-big-play-centered " controls preload="auto" width="900" height="580"
+                   data-setup="{}">
+                <!--<source src="2.mp4" type='video/mp4'>-->
+                <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                <!--<p class="vjs-no-js">-->
+                <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                <!--</p>-->
+            </video>
+            <a href="javascript:;" class="closePlay" ng-click="closePlay()">
+                <i class="iconfont  icon-cuowu"></i>
+            </a>
+            <div class="videoPic"  ng-if="imgOnly" >
+                <img ng-src="{{picPath}}" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>
+

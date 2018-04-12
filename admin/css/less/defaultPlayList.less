@@ -1,0 +1,260 @@
+//默认播放列表相关样式
+.defaultPlayList{
+  @dff : "微软雅黑";
+  .typeIcon {
+    vertical-align: middle;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+  }
+  .btn{
+    padding: 0;
+  }
+  .deviceCtrlGroup {
+    padding-bottom: 15px;
+    .head{
+      font-size: 16px;
+      color: #889098;
+      line-height: 40px;
+      float: left;
+      margin: 0;
+      margin-right: 60px;
+    }
+    .mediaBtn {
+      background-color: rgba(0,0,0,0);
+      color: #889098;
+      font: 14px @dff;
+      border: 1px solid #c4c8cc;
+      transition: box-shadow 0.3s ease-in-out 0s,width 0.3s ease-in-out 0s;
+      &:hover {
+        background-color: #fff;
+        color : #f6911a;
+        border: 1px solid rgba(0,0,0,0);
+        box-shadow: 0 0 10px #d6d4d0;
+      }
+    }
+    .uploadMedia {
+      color: #889098;
+      border-color: #f6911a;
+      width: 130px;
+      height: 38px;
+      margin-right: 30px;
+      //margin-left: 22px !important;
+
+    }
+    .mediaType {
+      color: #889098;
+      border-color: #f6911a;
+      width: 60px;
+      height: 38px;
+      margin-right: 10px;
+      //margin-left: 22px !important;
+
+    }
+    .select {
+      background-color: #fff;
+      color : #f6911a;
+      border: 1px solid rgba(0,0,0,0) !important;
+      box-shadow: 0 0 10px #d6d4d0;
+    }
+  }
+
+  .deviceListCtrl {
+    background-color: #fff;
+    position: relative;
+    .detailTitle {
+      color: #889098;
+      font-size: 16px;
+      height: 40px;
+      line-height: 40px;
+      display: block;
+      float: left;
+    }
+    .detailDate {
+      display: block;
+      text-align: center;
+      color: #889098;
+      font-size: 16px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .deviceTable {
+      padding: 10px 30px;
+      box-shadow: 0 0 20px #d6d4d0;
+      .loadingWrap {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        margin-left: -83px;
+        box-shadow: 0px 3px 10px 0px rgba(43, 67, 113, 0.35);
+        .loadingSquare {
+          padding: 10px 11px;
+        }
+      }
+      .table {
+        font: 12px @dff;
+
+        thead {
+          tr {
+            td {
+              text-align: center;
+              padding: 20px 15px;
+              border-bottom: 1px solid #eaeff0;
+            }
+            .theadCheckBox {
+              width: 50px;
+              border-bottom: 1px solid #eaeff0;
+            }
+            td:nth-child(1){
+              width: 10%;
+            }
+            td:nth-child(2){
+              width: 15%;
+            }
+            td:nth-child(3){
+              width: 15%;
+            }
+            td:nth-child(4){
+              width: 15%;
+            }
+            td:nth-child(5){
+              width: 5%;
+            }
+            td:nth-child(6){
+              width: 12%;
+              min-width: 200px;
+              position: relative;
+            }
+          }
+        }
+        tbody {
+          tr {
+            transition: all  0.2s ease-in-out 0s;
+            &:hover {
+              background-color: #fff3e5;
+              .td1 {
+                color: #4095fe;
+              }
+
+            }
+            .edit {
+              display: none;
+            }
+            td {
+              text-align: center;
+              vertical-align: middle;
+              padding: 15px 15px;
+              p {
+                overflow: hidden;
+                margin: 0;
+                span {
+                  display: inline-block;
+                  width: 88px;
+                  margin: 0 auto;
+                  line-height: 20px;
+                  overflow: hidden;
+                }
+              }
+            }
+            td:nth-child(1){
+              width: 10%;
+            }
+            td:nth-child(2){
+              width: 15%;
+              text-indent: 3%;
+            }
+            td:nth-child(3){
+              width: 15%;
+              text-indent: 3%;
+              padding: 10px 15px 15px 15px;
+              p{
+                margin-top: 5px;
+              }
+            }
+            td:nth-child(4){
+              width: 15%;
+              text-indent: 3%;
+            }
+            td:nth-child(5){
+              width: 5%;
+            }
+            td:nth-child(6){
+              width: 12%;
+              min-width: 200px;
+              position: relative;
+              .icon-off1,.icon-on{
+                font-size: 30px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+              }
+              .icon-off1{
+                color: #889098;
+              }
+            }
+            .td1 {
+              cursor: pointer;
+            }
+            .tableDirName {
+              .dataName {
+                display: block;
+                cursor: pointer;
+                &:hover {
+                  color: #00a8f3;
+                }
+              }
+              .typeIcon {
+                vertical-align: middle;
+                display: inline-block;
+                width: 26px;
+                height: 26px;
+                background: url('../../img/icon_videopack.png') no-repeat;
+              }
+            }
+            .tbodyCheckBox {
+              border-bottom: 1px solid #fff;
+            }
+            .operateBtn {
+              a {
+                i {
+                  font-size: 18px;
+                  color: #4095fe;
+                }
+              }
+              .i-switch {
+                position: relative;
+                span {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                }
+                .turnOn {
+                  top: 5px;
+                  left: 5px;
+                }
+                .turnOff {
+
+                }
+              }
+            }
+          }
+
+          .dirInput {
+            width: 230px;
+            height: 20px;
+            border: 1px solid #74b2fe;
+          }
+          .editTr {
+            .dataName {
+              display: none !important;
+            }
+            .edit {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

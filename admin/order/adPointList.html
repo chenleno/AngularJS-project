@@ -1,0 +1,172 @@
+<div class='clearfix order' ng-controller='adPointListCtrl'>
+
+    <div class="tabs" style="margin-bottom: 20px;">
+        <a class="returnButton" ng-click="returnBack()">返回上一级</a>
+    </div>
+
+    <div class="tabs fl">
+        <div class="tabBtn " ng-click="goDesc()"><i class="iconfont icon-bendishangchuan"></i>广告单详情</div>
+        <div class="tabBtn listMedia"><i class="iconfont icon-shenhe2"></i>投放点位</div>
+    </div>
+
+    <!--button-group-->
+    <!--<div class="deviceCtrlGroup clearfix">
+
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search( keyword)'></i>
+            <input ng-keyup='search( keyword , $event)' type="text" placeholder='搜索点位名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl stateTitle title">
+                位置：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='source' ng-options='type.id as type.name for type in orderSource'>
+
+                    <option value=''>北京</option>
+
+                </select>
+
+            </div>
+
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='type' ng-options='state.id as state.name for state in customerType'>
+
+                    <option value=''>北京市</option>
+
+                </select>
+
+            </div>
+
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='type' ng-options='state.id as state.name for state in customerType'>
+
+                    <option value=''>区域</option>
+
+                </select>
+
+            </div>
+
+           <div class="fl stateTitle title">
+                状态：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='type' ng-options='state.id as state.name for state in customerType'>
+
+                    <option value=''>在线</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>-->
+
+
+    <div class="deviceCtrlGroup clearfix">
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search(selected,selected2,selected3,keyword,type)'></i>
+            <input ng-keyup='search(selected,selected2,selected3,keyword,type, $event)' type="text" placeholder='搜索点位名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl cityTitle title">
+                位置：
+            </div>
+            <div class="fl deviceCity selectSquare">
+                <label class='chooseCity' >
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected" ng-options="s.province for s in cityList"
+                            ng-change="c(selected,selected2,selected3,keyword,type)">
+                        <option value="">请选择省份</option>
+                    </select>
+                </label>
+                <!--<label class='chooseCity' ng-show="selected.child.length"-->
+                <label class='chooseCity'
+                >
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-model="selected2"
+                            ng-options="sh.city for sh in selected.cityList" ng-change="c2(selected,selected2,selected3,keyword,type)">
+                        <option value="">请选择市区</option>
+                    </select>
+                </label>
+                <!--<label class='chooseCity' ng-show="selected2.child.length"-->
+                <label class='chooseCity'
+                >
+                    <select class=" input-sm form-control w-sm inline v-middle "
+                            ng-model="selected3" ng-options=" x for x in selected2.districtList"
+                            ng-change="c3(selected,selected2,selected3,keyword,type)">
+                        <option value="">请选择区域</option>
+                    </select>
+                </label>
+
+            </div>
+
+            <div class="fl stateTitle title">
+                点位类型：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(selected.province,selected2.city,selected3,keyword,type)' ng-model='type' ng-options='state.id as state.name for state in PTtype'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" adaptive-table >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td id='td1'>点位名称</td>
+                    <td id='td2'>位置</td>
+                    <td id='td3'>发送状态</td>
+                    <td id='td4'>下载状态</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in adPointList'  on-finish>
+                        <td class='td1' title='{{data.pointName}}'>
+                            {{data.pointName}}
+                        </td>
+                        <td class='td2'>{{data.adress}}</td>
+                        <td class='td3' ng-if="data.sendStatus == 3 || data.sendStatus == 4" > <i class='fa fa-spinner' style="color:#4095fe"></i> &nbsp;&nbsp; {{data.sendStatus | pointStatus}}</td>
+                        <td class='td3' ng-if="data.sendStatus == 1 || data.sendStatus == 2" > <i class='iconfont icon-gougou' style="color:#4095fe"></i> &nbsp;&nbsp; {{data.sendStatus | pointStatus}}</td>
+                        <td class='td3' ng-if="data.sendStatus != 1 && data.sendStatus != 2 && data.sendStatus != 3 && data.sendStatus != 4" >  &nbsp;&nbsp; {{data.sendStatus | pointStatus}}</td>
+                        <td class='td4'>{{data.resourceDownLoad == 1 ? '未下载' : data.resourceDownLoad == 2 ? '下载中' :  data.resourceDownLoad == 3 ? '下载完成' : '—'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

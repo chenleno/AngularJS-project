@@ -1,0 +1,79 @@
+<div id="programList" class="clearfix" ng-controller='programListCtrl'>
+
+    <!--button-group-->
+    <div class="programCtrlGroup clearfix">
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button  type=" button" class=" btn mediaBtn uploadMedia" ng-click='addProgram()'><i class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;新建节目</button>
+            <button type=" button" class=" btn mediaBtn createDirBtn" ng-click='delete(programSelectedArr)'><i class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除所选</button>
+        </div>
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo'></i>
+            <input ng-keyup='search( keyword , $event)' type="text" placeholder='搜索节目名称' maxlength="30" ng-model='keyword'>
+        </div>
+    </div>
+    <!--listTable-->
+
+    <div  class="proListCtrl" >
+
+        <div class="proTable" id='proListCtrl' body-height="proListCtrl 230">
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td class='theadCheckBox' id="td1">
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox"
+                                   ng-click="selectAll(programSelectedArr , $event , programList , 'materialListId')"
+                                   ng-checked='isSelectedAll(programSelectedArr ,programList)'><i></i>
+                        </label>
+                    </td>
+                    <td id="td2">节目名称</td>
+                    <td id="td3">时长</td>
+                    <td id="td4">数量</td>
+                    <td id="td5">修改时间</td>
+                    <td id="td6">操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish
+                        ng-class="{'selectedTr' : isSelected(programSelectedArr , data.materialListId),'editTr' : editDirBool }">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.materialListId}}' ng-disabled='addDirBool? true: false'
+                                       ng-model='data.checked' ng-checked='isSelected(programSelectedArr , data.materialListId)'
+                                       ng-click="updateSelection(programSelectedArr , $event , data.materialListId)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName' >
+                            <span title='{{data.name}}' class='dataName'>
+                                <i class='typeIcon' ></i>&nbsp;&nbsp;
+                                {{data.name | limitLength}}
+                            </span>
+                        </td>
+                        <td>{{data.totalTime | timeChange}}</td>
+                        <td>{{data.totalNumber}}</td>
+                        <td>{{data.updateTime}}</td>
+                        <td class="operateBtn ">
+                            <a href="javascript:;" title='编辑' ng-click="checkBtn('/api/mps-materialList/materialList/:materialListId','put','app.program.addProgram',{id:data.materialListId,name:data.name,bool:true})" >
+                                <i class='iconfont icon-bianji' ></i></a>
+
+                            <a href="javascript:;" title='删除' ng-click='delete(data.materialListId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有节目哦，<a ng-click="addProgram()">新建节目</a>或者<a ui-sref='app.media.mediaList'>上传新素材</a>吧</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

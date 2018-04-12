@@ -1,0 +1,178 @@
+<div id="mediaCheck" class="clearfix" ng-controller='checkMediaCtrl' filters="queueLimit, customFilter">
+
+    <div class="tabs fl">
+        <div class="tabBtn" ui-sref="app.media.mediaList"><i class="iconfont icon-bendishangchuan"></i>素材列表</div>
+        <div class="tabBtn listMedia" ui-sref="app.media.checkMedia"><i class="iconfont icon-shenhe2"></i>素材审核 <s  class='countNum' ng-if='toCheckNumber != 0'>{{toCheckNumber}}</s></div>
+    </div>
+
+    <!--button-group-->
+    <div class="mediaCtrlGroup clearfix">
+
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo'></i>
+            <input ng-keyup='search( keyword , state , $event, currentPage , pageSize)' type="text" placeholder='搜索素材名称' ng-model='keyword' maxlength="30">
+        </div>
+
+        <div class="fr selectGroup">
+            <div class="fl stateTitle title">
+                审核状态：
+            </div>
+            <div class="fl deviceState selectSquare">
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query( keyword , state, currentPage , pageSize)' ng-model='state' ng-options='state.id as state.name for state in stateGroup'>
+                    <!--<option value=''>全部</option>-->
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--listTable-->
+
+    <div class="mediaListCtrl" >
+        <div class="mediaTable" id='mediaListCtrl' body-height="mediaListCtrl 230">
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td>素材名称</td>
+                    <td>文件目录</td>
+                    <td>容量（MB）</td>
+                    <td>修改时间</td>
+                    <td>操作</td>
+                    <td>审核</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+                    <!--列表获取展示行-->
+                        <tr ng-repeat='data in datas track by $index' >
+                            <td class='tal dirName tableDirName td1' >
+                                <span title='{{data.name}}' class='dataName'>
+                                    <i class='typeIcon' ng-class='data.format | formatIcon' ></i>&nbsp;&nbsp;
+                                    {{data.name | limitLength}}
+                                </span>
+                            </td>
+                            <td class='tal' title='{{data.fullName}}'>{{data.fullName | limitLength}}</td>
+                            <td>{{data.size | sizeFormat}}</td>
+                            <td>{{data.updated}}</td>
+
+                            <td class="operateBtn ">
+                                <a href="javascript:;" title='预览' ng-click="openPlay1(data.uid)" ng-show="data.format == 'picture' || data.format == 'video' ">
+                                    <i class='iconfont icon-chakan' ></i> &nbsp;&nbsp;&nbsp;</a>
+
+                                <a href="javascript:;" title='下载' ng-click="download(data.uid)">
+                                    <i class='iconfont icon-iconxiazai1' ></i></a>
+                            </td>
+                            <!--没有审核权限时显示-->
+                            <td ng-show='onlyShowState'>{{data.checkStatus | getExamine}}</td>
+
+                            <!--拥有审核权限，且状态为待审核时显示-->
+                            <td ng-show='!onlyShowState'>
+                            <span ng-show='data.checkStatus == 1 || data.checkStatus == 2'>已{{data.checkStatus | getExamine}}</span>
+                            <a ng-show='data.checkStatus == 3' ng-click='examine(data.uid , 1)' class="successButton" href="">通过</a>
+                            <span ng-show='data.checkStatus == 3' class='shuLine'></span>
+                            <a ng-show='data.checkStatus == 3' ng-click='examine(data.uid , 2)' class="failButton">不通过</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>空空如也...</p>
+                </div>
+
+                <!--<div class="myPagination clearfix">-->
+                    <!--<div class="jumpPage text-sm pageInfo">-->
+                        <!--&lt;!&ndash;(每页显示&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class=" pageSelect">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'&ndash;&gt;-->
+                        <!--&lt;!&ndash;ng-options='page.name as page.name for page in pageSizeList' >&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;条，&ndash;&gt;-->
+                        <!--当前第{{currentPage}}页 / 共{{numPages}}页-->
+                        <!--&lt;!&ndash;跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'&ndash;&gt;-->
+                        <!--&lt;!&ndash;onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"&ndash;&gt;-->
+                        <!--&lt;!&ndash;ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<pagination class="pagination-sm m-t-none m-b"-->
+
+                                <!--total-items="totalItems"-->
+                                <!--ng-model="currentPage"-->
+                                <!--force-ellipses="true"-->
+                                <!--boundary-links="true"-->
+                                <!--rotate="false"-->
+                                <!--num-pages="numPages"-->
+                                <!--max-size="maxSize"-->
+                                <!--items-per-page="pageSize"-->
+
+                                <!--ng-change="query(keyword , state , currentPage , pageSize)"-->
+                                <!--previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">-->
+                    <!--</pagination>-->
+                <!--</div>-->
+        </div>
+    </div>
+        <div class="pageSquare clearfix">
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query( keyword , state, currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+        <!--//播放器遮罩-->
+        <div class="modal-backdrop fade in" id="videoMask"></div>
+        <div id="video" class="video">
+            <div class="video-body">
+                <video id="my-video1" class="video-js vjs-big-play-centered " controls preload="auto" width="900" height="580"
+                       data-setup="{}">
+                    <!--<source src="2.mp4" type='video/mp4'>-->
+                    <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>-->
+                    <!--<source src="http://vjs.zencdn.net/v/oceans.webm" type='video/webm'>-->
+                    <!--<p class="vjs-no-js">-->
+                    <!--To view this video please enable JavaScript, and consider upgrading to a web browser that-->
+                    <!--&lt;!&ndash;<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>&ndash;&gt;-->
+                    <!--</p>-->
+                </video>
+                <a href="javascript:;" class="closePlay" ng-click="closePlay1()">
+                    <i class="iconfont  icon-cuowu"></i>
+                </a>
+                <div class="videoPic"  ng-if="imgOnly" >
+                    <img ng-src="{{picPath}}" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+

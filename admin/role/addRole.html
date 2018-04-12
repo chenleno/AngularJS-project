@@ -1,0 +1,103 @@
+<div class="addPermission" ng-controller="permissionCtrl" id="addPermission">
+
+    <div class="addPermissionForm">
+        <div class="panel-body">
+            <div class="RMform">
+                <div class="permissionName" ng-show="!editProName">
+
+                    <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+                          w5c-form-validate="vm.validateOptions" novalidate name="validateForm" ng-submit='addGroupName()'>
+
+                        <div class="clearfix">
+                            <div class="inputArea">
+                                <input placeholder="请输入权限名称" required=""  ng-model="data.roleName" ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_]+$/"
+                                       class="groupNameFocus form-control proName" name="rolaName" ng-maxlength='15' >
+                            </div>
+
+                            <div class="saveBtn">
+                                <button class="btn btn-info btnSubmit" ng-disabled='form.$invalid'><i class="iconfont icon-gougou done"></i></button>
+                                <a class="btn btn-info btnSubmit1" ng-click="clearName()"><i class="iconfont icon-cuowu wrong"></i></a>
+                                <span class="errorMsg" ng-if='errorMsg'>该权限已存在</span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="editProName" ng-show="editProName">
+                    <span>{{data.roleName}}</span>&nbsp;&nbsp;<i class='iconfont icon-bianji' ng-click="editName()"></i>
+                </div>
+            </div>
+
+
+            <!--//表单-->
+            <div class="addPermissionPanel fade-in-up" >
+
+                <div class="panel-body">
+                    <!--<div class="col-lg-2"></div>-->
+                    <div class="tab-container " >
+
+                        <div ng-controller="permissionClass" class="permissionClass">
+                            <form name='form' ng-submit='addPermissionList(roleId)'>
+                                <!--data遍历出datas中的所有类别对象-->
+                                <div class="table-responsive permissionTab" >
+                                    <div class="group col-lg-12 titleStyle" >
+                                        <label class="i-checks m-b-none">
+                                            <input type="checkbox" id="allCheck"
+                                                   ng-checked='isSelectedAllRole(perSelectedArr[0] , permissionDatas , true)'><i></i>
+
+                                            <span style="font-size: 12px;font-weight: 500">全选</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="table-responsive permissionTab" >
+                                    <div class="warp" ng-repeat='data in permissionDatas'>
+                                        <!--data遍历出datas中的所有类别对象-->
+                                        <div class="group col-lg-12 titleStyle" >
+                                            <label class="i-checks m-b-none">
+                                                <input type="checkbox" class="parent2Check"
+                                                       ng-click="selectChildAll(perSelectedArr[0],perSelectedArr[$index+1], $event , data , 'id' , true)"
+                                                       ng-checked='isChildSelectedAll(perSelectedArr[$index+1] , data , true)'><i></i>
+
+                                               <span>{{data.name}}</span>
+                                            </label>
+                                        </div>
+                                        <!--全选选项框-->
+                                        <div class="checkGroupChild">
+                                            <div class="group checkGroup" ng-repeat='action in data.methods' >
+                                                <div>
+                                                    <label class="i-checks m-b-none">
+                                                        <input  type="checkbox"
+                                                                ng-checked='isSelected(perSelectedArr[0],action.id)'
+                                                                ng-click="updateSelection(perSelectedArr[0] , $event, action.id ,perSelectedArr[$parent.$index+1])"><i></i>
+                                                        <span>{{action.name}}</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer" >
+                                    <!--<button class="btn btn-default" ng-click="cancel()">取消</button>-->
+                                    <div class="saveBtn">
+                                        <button class="btn btnSubmit" ng-disabled='form.$invalid'><i class="iconfont icon-baocun"></i>&ensp;保存</button>
+                                        <!--<button class="btn btnCancel">返回</button>-->
+                                        <a class=" btnCancel" ui-sref='app.role.roleList'><i class="iconfont icon-jiantou1-copy"></i>&ensp;返回</a>
+
+                                    </div>
+                                    <!--<input type='submit' class="btnSubmit btn  btn-primary " ng-disabled='form.$invalid'/>-->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>

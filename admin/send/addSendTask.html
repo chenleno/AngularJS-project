@@ -1,0 +1,161 @@
+<div id="addSendTAsk" class="clearfix" ng-controller='addSendTAskCtrl'>
+
+    <!--button-group-->
+    <div class="sendCtrlGroup clearfix">
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <button type=" button" class=" btn mediaBtn createDirBtn" ng-click='saveTask()'><i class='iconfont icon-baocun'></i>&nbsp;&nbsp;保存任务</button>
+        </div>
+        <a class="return" ui-sref="app.send.sendList">返回上一级</a>
+    </div>
+    <!--listTable-->
+
+    <div  class="sendListCtrl list1">
+        <div class="list-head1"></div>
+        <div class="proTable" id='proListCtrl' body-height="proListCtrl 230">
+
+            <div class="searchGroup">
+                <i class='iconfont icon-sousuo_sousuo' ng-click="searchMater(keyword)"></i>
+                <input ng-keyup='searchMater(keyword,$event)' type="text" placeholder='搜索节目单名称' maxlength="30" ng-model='keyword'>
+            </div>
+            <div class="optiscroll" id="scroll" scroll-height="scroll 306">
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish
+                        ng-class="{'selectedTr' : isMaterialSelect(data.materialListId)}">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="radio" name='materialList' value='{{data.materialListId}}'
+                                       ng-model='materialList' ng-click="updateMaterialList(data.materialListId)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName' >
+                            <span title='{{data.name}}' class='dataName'>
+                                {{data.name | limitLength}}
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div  class="sendListCtrl list2" body-width>
+        <div class="list-head2"></div>
+        <div class="proTable" id='proListCtrl2' body-height="proListCtrl2 230">
+            <div class="selectGroup">
+                <div class="fr selectSquare">
+
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-change="deviceQuery(city,deviceKeyword,deviceState,'')" ng-model='city' ng-options='city.name as city.name for city in cityGroup'>
+
+                        <option value=''>全部省份</option>
+
+                    </select>
+
+                </div>
+                <div class="fr selectSquare">
+
+                    <select class=" input-sm form-control w-sm inline v-middle " ng-change="deviceQuery(city,deviceKeyword,deviceState,'')" ng-model='deviceState'>
+                        <option value='1'>在线</option>
+                        <option value=''>全部状态</option>
+                        <option value='3'>离线</option>
+
+                    </select>
+
+                </div>
+                <div class="fr searchGroup">
+                    <i class='iconfont icon-sousuo_sousuo' ng-click="searchDevice(city,deviceKeyword,deviceState,'')"></i>
+                    <input ng-keyup='searchDevice(city,deviceKeyword,deviceState,$event)' type="text" placeholder='搜索设备名称' maxlength="30" ng-model='deviceKeyword'>
+                </div>
+            </div>
+
+            <div class="optiscroll" id="scroll2" scroll-height="scroll2 320">
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in devices track by $index' on-finish
+                        ng-class="{'selectedTr' : isSelected(equipmentSelectedArr , data.deviceId),'editTr' : editDirBool }">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.deviceId}}' ng-disabled='addDirBool? true: false'
+                                       ng-model='data.checked' ng-checked='isSelected(equipmentSelectedArr , data.deviceId)'
+                                       ng-click="updateSelection(equipmentSelectedArr , $event , data.deviceId)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName' >
+                            <span title='{{data.deviceId}}' class='dataName'>
+                                {{data.deviceId | limitLength}}
+                            </span>
+                        </td>
+                        <td>{{data.deviceName}}</td>
+                        <td>{{data.state}}</td>
+                        <td>{{data.deviceProvince}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div  class="sendListCtrl list3">
+        <div class="list-head3"></div>
+        <div class="proTable" id='proListCtrl3' body-height="proListCtrl3 230">
+            <div class="radioTime">
+                <div class="radioGroup">
+                    <label class="i-checks " >
+                        <input type="radio" ng-model='jobModeCode' name="updateTime"  value="timing">
+                        <i></i>
+                        定时发送
+                    </label>
+                </div>
+                <div class="timeCtrl">
+                    <!--日期-->
+                    <div class="taskTime">
+                        <div class=" dateFromCtrl">
+                            <div class="input-group">
+                                <input class="form-control"  ng-model="fromDate" datetimepicker id="startData"  options="options"
+                                       name="date" required placeholder="起始日期" />
+                                            <span class="input-group-addon">
+                                                <span class="iconfont  icon-rili"></span>
+                                            </span>
+                            </div>
+                        </div>
+
+                        <div class="dateFromCtrl timeFrom" >
+                            <div class="input-group">
+                                <input class="form-control" datetimepicker ng-model="fromHour" options="optionsHour"
+                                       name="fromHour" required placeholder="小时" id="hourOne"/>
+                                            <span class="input-group-addon">
+                                                 <span class="iconfont  icon-select"></span>
+                                            </span>
+                            </div>
+                        </div>
+                        <div class="timeline"> : </div>
+                        <div class="dateFromCtrl timeFrom">
+                            <div class="input-group">
+                                <input class="form-control" datetimepicker ng-model="fromMin" options="optionsMin"
+                                       name="fromMin" required placeholder="分钟" id="minOne"/>
+                                            <span class="input-group-addon">
+                                                 <span class="iconfont  icon-select"></span>
+                                            </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="radioGroup">
+                    <label class="i-checks " >
+                        <input type="radio" ng-model='jobModeCode' name="updateTime"  value="immediately" >
+                        <i></i>
+                        立即发送
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,159 @@
+<div id="device" class='clearfix' ng-controller='deviceListCtrl'>
+
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+
+
+
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <!--<button type=" button" class=" btn mediaBtn uploadMedia" ng-click='addProgram()'><i-->
+            <button type=" button" class=" btn mediaBtn uploadMedia" ui-sref='app.device.addDevice'><i
+                    class='iconfont icon-552cc594d8cc0'></i>&nbsp;&nbsp;添加设备
+            </button>
+            <button type=" button" class=" btn mediaBtn createDirBtn" ng-click='delete(deviceSelectedArr)'><i
+                    class='iconfont icon-shanchu'></i>&nbsp;&nbsp;删除所选
+            </button>
+        </div>
+        <div class="fr searchGroup">
+            <i class='iconfont icon-sousuo_sousuo' ng-click='search( keyword)'></i>
+            <input ng-keyup='search( keyword , $event)' type="text" placeholder='搜索终端名称' ng-model='keyword'>
+        </div>
+
+        <div class="fr selectGroup">
+
+            <div class="fl cityTitle title">
+                所在地：
+            </div>
+            <div class="fl deviceCity selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='city' ng-options='city.name as city.name for city in cityGroup'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+            <div class="fl stateTitle title">
+                状态：
+            </div>
+            <div class="fl deviceState selectSquare">
+
+                <select class=" input-sm form-control w-sm inline v-middle " ng-change='query(keyword , city , state)' ng-model='state' ng-options='state.id as state.name for state in stateGroup'>
+
+                    <option value=''>全部</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div id='deviceListCtrl' class="deviceListCtrl" adaptive-table >
+
+        <div class="deviceTable">
+
+            <div ng-if='onLoading' class="loadingWrap">
+                <div class="loadingSquare onLoading">
+                    <p><i class='fa fa-spinner fa-pulse'></i>&nbsp;&nbsp;&nbsp;&nbsp;正在操作中</p>
+                </div>
+            </div>
+
+
+
+            <table class="table" style="margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <td class='theadCheckBox' id="td1">
+                        <label class="i-checks m-b-none">
+                            <input type="checkbox"
+                                   ng-click="selectAll(deviceSelectedArr , $event , deviceList , 'deviceId')"
+                                   ng-checked='isSelectedAll(deviceSelectedArr ,deviceList)'><i></i>
+                        </label>
+                    </td>
+                    <td id="td2">终端ID</td>
+                    <td id="td3">终端名称</td>
+                    <td id="td4">MAC地址</td>
+                    <td id="td5">所在地</td>
+                    <td id="td6">激活时间</td>
+                    <td id="td7">状态</td>
+                    <td id="td8">操作</td>
+                </tr>
+                </thead>
+            </table>
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas track by $index' on-finish
+                        ng-class="{'selectedTr' : isSelected(deviceSelectedArr , data.deviceId) }">
+                        <td class='tbodyCheckBox'>
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox" name='selected' value='{{data.deviceId}}'
+                                       ng-model='data.checked'
+                                       ng-checked='isSelected(deviceSelectedArr , data.deviceId)'
+                                       ng-click="updateSelection(deviceSelectedArr , $event , data.deviceId)"><i></i>
+                            </label>
+                        </td>
+                        <td class='tal dirName tableDirName'>
+                            <span title='{{data.deviceId}}' class='dataName'>
+                                {{data.deviceId | limitLength}}
+                            </span>
+                        </td>
+                        <td>{{data.deviceName}}</td>
+                        <td>{{data.deviceMac}}</td>
+                        <td>{{data.deviceCity}}</td>
+                        <td>{{data.addTime}}</td>
+                        <td>{{data.state}}</td>
+                        <td class="operateBtn ">
+
+
+                            <!--原switch-->
+                            <!--<label class="i-switch bg-diy" title='{{data.state == "在线" ? "关机" : "开机"}}' ng-hide='data.state == "离线"'>-->
+                                <!--<input  type="checkbox" ng-click='onOff(data.deviceId , data.state)' ng-checked='data.state | getOnOff'>-->
+                                <!--<i></i>-->
+                            <!--</label>-->
+
+                            <a ng-hide='data.state == "离线"' href="javascript:;" title='设备开机' ng-click='deviceOn(data.deviceId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-guanjion'></i></a>
+
+                            <a ng-hide='data.state == "离线"' href="javascript:;" title='设备关机' ng-click='deviceOff(data.deviceId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-guanjioff'></i></a>
+
+                            <a ng-show='data.state == "离线"' href="javascript:;" title='设备已离线' >
+                                &nbsp;&nbsp;&nbsp;
+                                <i class=' icon-ban' style='vertical-align: text-bottom; color: #d0d0d0;padding-left: 35px;'></i></a>
+
+                            <a ng-hide='data.state == "离线"' href="javascript:;" title='设备定时' ng-click='setTime(data.deviceId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class=' icon-clock' style='vertical-align: text-bottom;'></i></a>
+
+                            <a ng-hide='data.state == "离线"' href="javascript:;" title='查看截图' ng-click='showSS(data.deviceId , data)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class='iconfont icon-jieping1'></i></a>
+
+                            <a href="javascript:;" title='删除设备' ng-click='delete(data.deviceId)'>
+                                &nbsp;&nbsp;&nbsp;
+                                <i class="iconfont  icon-shanchu"></i></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--模态框测试-->
+                <!--<a ng-click='setTime()'>点击</a>-->
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有设备哦，点击 <a ui-sref='app.device.addDevice'>添加设备</a> 按钮~</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

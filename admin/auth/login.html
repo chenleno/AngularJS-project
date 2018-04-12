@@ -1,0 +1,34 @@
+
+<!--用户登入login-->
+<div class="loginBg" bg-height >
+    <div class="container w-xxl w-auto-xs " ng-controller="LoginController" rember-pwd>
+        <div class="logo">
+            <div class="logoIcon"><i class='fa fa-paper-plane'></i></div>
+            <p class='logoTitle'>信息发布系统</p>
+            <p class='logoEnTitle'>Multimedia Publishing System</p>
+        </div>
+        <div class="m-b-lg inputText">
+            <form name="form" class="form-validation loginForm" ng-submit="checkLogin()">
+                <div class="list-group list-group-sm" ng-class='{"animated shake":errorShake}'>
+
+                    <div class="list-group-item emailBg">
+                        <input type="text" placeholder="邮箱" class="form-control no-border" ng-model="data.email" required>
+                    </div>
+                    <div class="list-group-item passwordBg">
+                        <input type="text" onfocus="this.type='password'" autocomplete="off" id="password"  placeholder="密码" class="form-control no-border" ng-model="data.password" required>
+
+                    </div>
+                </div>
+                <div class="errorMsg"><span ng-show='!!errorMsg'><i class='iconfont icon-cuowu'></i>&nbsp;&nbsp;{{errorMsg}}</span></div>
+                <button class="btnSubmit" ng-disabled='noRepeat'>登 录</button>
+                <label class="i-checks m-b-none rememberPassword" ng-click="rememberPassword = !rememberPassword" ng-model="rememberPassword">
+                    <input type="checkbox" ng-model="rememberPassword"/><i></i>记住密码
+                </label>
+                <a href="javascript:;" class="findPass" ng-click="findPassword()">忘记密码？</a>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+

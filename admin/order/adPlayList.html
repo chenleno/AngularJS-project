@@ -1,0 +1,109 @@
+<div class='clearfix' ng-controller='adPlayListCtrl' id='adPlayListCtrl'>
+
+    <div class="playListHead">
+        <a class="return" ng-click="return()">返回上一级&nbsp;&nbsp;</a>
+        <p class="headName">{{name}}</p>
+
+        <div class=" dateFromCtrl mr-20">
+            <div class="input-group">
+                <input class="form-control"  ng-model="fromDate" datetimepicker id="fromDate"  options="option1"
+                       name="date" required placeholder="日期"  ng-change='search( fromDate, 1 , 20)'/>
+                                            <span class="input-group-addon">
+                                                <span class="iconfont  icon-rili"></span>
+                                            </span>
+            </div>
+        </div>
+
+    </div>
+    <!--listTable-->
+
+    <div  class="deviceListCtrl" >
+        <!--<div class="playTitle"></div>-->
+        <div class="deviceTable">
+            <div class="optiscroll" id="scroll" list-scroll>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td class="">点位ID</td>
+                        <td>点位名称</td>
+                        <td>点位类型</td>
+                        <td ng-repeat="item in datas[0].date">{{$index+1}}</td>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <!--列表获取展示行-->
+                    <tr ng-repeat='data in datas' >
+                        <td>{{data.pointId}}</td>
+                        <td>{{data.pointName}}</td>
+                        <td>{{data.pointType == 1 ? '3*3' : data.pointType == 2 ? '3*4' : data.pointType == 3 ? '1*2' : '单屏'}}</td>
+                        <td ng-repeat="item in data.date">
+                            <p ng-if="item.length == 2" class="unPlay">{{item[0] == null ? 0 : item[0]}}</p>
+                            <p ng-if="item.length == 2" class="play">{{item[1]}}</p>
+                            <p ng-if="item.length == 1" class="play playFont">{{item[0] == 0 ? ' ' : item[0]}}</p>
+                            <p ng-if="item.length == 0" class="unPlay">-</p>
+                        </td>
+                    </tr>
+
+                    <!--<tr>-->
+                    <!--<td>17:09-18:09</td>-->
+                    <!--<td><i class="typeIcon videoType"></i>&nbsp;&nbsp; KDX_land_2dpz_01-cou</td>-->
+                    <!--<td>同意老碳酸次啊</td>-->
+                    <!--<td>播放中</td>-->
+                    <!--</tr>-->
+
+
+                    </tbody>
+                </table>
+
+                <div class="noData" ng-if='datas | showNoData'>
+                    <div class="noDataImg"></div>
+                    <p>当前还没有排期列表</p>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="pageSquare clearfix">
+            <div class="fl playListInfo">
+                <p class="length">共<span>{{datas.length}}</span>个点位</p>
+                <p>(注:灰色数字为已播放次数,绿色数字为预计播放次数)</p>
+            </div>
+            <div class="myPagination clearfix fr">
+                <div class="jumpPage text-sm pageInfo">
+                    <!--(每页显示-->
+                    <!--<div class=" pageSelect">-->
+                    <!--<select class="input-sm form-control w-sm inline v-middle " ng-change='search(condition , keyword , jumpPage , pageSize , $event)' ng-model='pageSize'-->
+                    <!--ng-options='page.name as page.name for page in pageSizeList' >-->
+
+                    <!--&lt;!&ndash;<option value=''>筛选条件</option>&ndash;&gt;-->
+
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--条，-->
+                    当前第{{currentPage}}页 / 共{{numPages}}页
+                    <!--跳转到第：<input type="number" check-page size='{{numPages}}' ng-model='jumpPage'-->
+                    <!--onfocus="this.select()" onkeyup="value=value.replace(/[^\d]/g,'')"-->
+                    <!--ng-keydown="search(condition , keyword , jumpPage , pageSize , $event)">页-->
+                </div>
+                <pagination class="pagination-sm m-t-none m-b"
+
+                            total-items="totalItems"
+                            ng-model="currentPage"
+                            force-ellipses="true"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            max-size="maxSize"
+                            items-per-page="pageSize"
+
+                            ng-change="query(fromDate, currentPage , pageSize)"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>

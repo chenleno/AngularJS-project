@@ -1,0 +1,162 @@
+<div id="addAdOrder1" ng-controller="addAdOrder1Ctrl">
+
+    <form name='form' class="form-horizontal w5c-form demo-form" role="form"
+          w5c-form-validate="vm.validateOptions" novalidate name="validateForm">
+    <div class="tabs fl">
+        <a class="returnButton" ng-click="returnBack()">返回上一级</a>
+    </div>
+    <!--button-group-->
+    <div class="deviceCtrlGroup clearfix">
+        <div class=" btn-group fr" role="group" aria-label="...">
+            <!--<button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='nextStep()'>
+                <i class='iconfont icon-jiantou1'></i>&nbsp;&nbsp;下一步
+            </button>-->
+        </div>
+    </div>
+
+    <div class="mainBox">
+
+        <div class="titleNav">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 showColor bg01">
+                        <div class="step showColor">1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect showColor">
+                选择点位
+            </div>
+            <div class="halfCircle showColor"></div>
+            <div class="colorLine1"></div>
+        </div>
+        <div class="titleNav addMedia">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 bg01">
+                        <div class="step">2</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect">
+                添加素材
+            </div>
+            <div class="halfCircle"></div>
+        </div>
+        <div class="titleNav setPlay">
+            <div class="con-show01">
+                <div class="con-show02">
+                    <div class="con-show03 bg01">
+                        <div class="step">3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rect">
+                设置播放方式
+            </div>
+            <div class="halfCircle"></div>
+        </div>
+
+
+        <div class="contant add_modal">
+
+            <div class="input-class">
+                <label>广告单名称： </label>
+                <input class='inputText' type="text" required="" ng-model="data.adName"
+                    />
+            </div>
+
+            <div class="input-class">
+                <label>点位类型： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.type'   value='2' ng-click="changeType(2)">
+                        <i></i>
+                        3*4
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.type'   value='3' ng-click="changeType(3)">
+                        <i></i>
+                        1*2
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.type'   value='1' ng-click="changeType(1)">
+                        <i></i>
+                        3*3
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.type'   value='4' ng-click="changeType(4)">
+                        <i></i>
+                        单屏
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.type'   value='5' ng-click="changeType(5)">
+                        <i></i>
+                        1+1+1
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="input-class">
+                <label>广告类型： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.video'   value='1' ng-click="changeBillType()">
+                        <i></i>
+                        视频
+                    </label>
+                    <label class="i-checks" ng-show="!pointTypeBool">
+                        <input type="radio" ng-model='data.video'   value='2' ng-click="changeBillType()">
+                        <i></i>
+                        互动游戏
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-class">
+                <label>选择点位： </label>
+                <div class="radio">
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.site'   value='0' ng-click="getAllPoint('','','','',data.type,'','','')">
+                        <i></i>
+                        全部
+                    </label>
+                    <label class="i-checks">
+                        <input type="radio" ng-model='data.site'   value='1' ng-click="showCityList()">
+                        <i></i>
+                        按城市投放
+                    </label>
+                    <label class="i-checks">
+
+                        <input type="radio" ng-model='data.site'   value='2' ng-click="setPoint()">
+
+                        <i></i>
+                        指定点位投放
+                    </label>
+                </div>
+
+
+            </div>
+                <div class="tipAlert">
+                    <div class="alertBox left1" ng-show="data.site == 0">
+                        已选择全部<span class="numShow">{{allPoints.length}}</span> 个点位 &nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class="alertBox left2" ng-show="data.site == 1">
+                        已选择 <span class="numShow">{{cityNum}}</span> 个城市，共 <span class="numShow">{{citySite.length}}</span> 个点位       <a ng-click="showCityList()">修改</a>
+                    </div>
+                    <div class="alertBox left3" ng-show="data.site == 2">
+                        已选择 <span class="numShow">{{selectPoint.length}}</span> 个点位 <a ng-click="setPoint()">修改</a>
+                    </div>
+                </div>
+            <div class="buttonType" id="buttonType">
+                <button type=" button" class=" btn mediaBtn uploadMedia hover"  ng-click='nextStep()'>
+                    <i class='iconfont icon-jiantou1'></i>&nbsp;&nbsp;下一步
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+        </form>
+</div>
